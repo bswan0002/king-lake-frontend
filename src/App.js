@@ -1,25 +1,183 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import SignInOrSignUp from "./components/SignInOrSignUp";
+import MyNav from "./components/MyNav";
+import AllMembers from "./components/AllMembers";
+import Orders from "./components/Orders";
+import Emails from "./components/Emails";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    user: null,
+  };
+
+  componentDidMount() {
+    if (sessionStorage.token) {
+      this.setUserFromValidated();
+    } else {
+      this.setState({
+        user: null,
+      });
+    }
+  }
+
+  setUserFromValidated = async () => {
+    const validatedUser = await this.fetchUserByToken();
+    this.setState({
+      user: validatedUser,
+    });
+  };
+
+  fetchUserByToken = () => {
+    return fetch("http://localhost:3000/api/v1/persist", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.token}`,
+      },
+    })
+      .then((res) => {
+        return res.ok && res.json();
+      })
+      .then((user) => {
+        return user;
+      });
+  };
+
+  signIn = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:3000/api/v1/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: e.target.email.value,
+        password: e.target.password.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((user) => {
+        if (user["status"] === 400) {
+          alert(user["error"]);
+        } else {
+          e.target.reset();
+          this.setState({
+            user: user.user,
+          });
+          sessionStorage.setItem("token", user.jwt);
+        }
+      });
+  };
+
+  signUp = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:3000/api/v1/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: e.target.email.value,
+        password: e.target.password.value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((user) => {
+        if (user["status"] === 500) {
+          alert(user["error"]);
+        } else {
+          e.target.reset();
+          this.setState({
+            user: user.user,
+          });
+          sessionStorage.setItem("token", user.jwt);
+        }
+      });
+  };
+
+  handleSignOut = () => {
+    sessionStorage.clear();
+    this.setState({ user: null });
+  };
+
+  roleCheck = (role, user = this.state.user) => {
+    return user?.roles?.some((userRole) => userRole.role_type === role);
+  };
+
+  checkRoleFromValidated = async (role) => {
+    const validatedUser = await this.fetchUserByToken();
+    const isValidUserRole = this.roleCheck(role, validatedUser);
+    if (!isValidUserRole) {
+      this.setState({
+        user: null,
+      });
+    }
+    return isValidUserRole;
+  };
+
+  render() {
+    return (
+      <Fragment>
+        <Router>
+          <MyNav
+            roleCheck={this.roleCheck}
+            user={this.state.user}
+            handleSignOut={this.handleSignOut}
+          />
+          <Switch>
+            {this.roleCheck("admin") ? (
+              <Fragment>
+                <Route path="/members">
+                  <AllMembers checkRole={this.checkRoleFromValidated} />
+                </Route>
+                <Route path="/orders">
+                  <Orders checkRole={this.checkRoleFromValidated} />
+                </Route>
+                <Route path="/emails">
+                  <Emails checkRole={this.checkRoleFromValidated} />
+                </Route>
+              </Fragment>
+            ) : null}
+            {!this.state.user ? (
+              <Fragment>
+                <Route path="/sign-in">
+                  <SignInOrSignUp
+                    formType="Sign In"
+                    handleSubmit={this.signIn}
+                  />
+                </Route>
+                <Route path="/sign-up">
+                  <SignInOrSignUp
+                    formType="Sign Up"
+                    handleSubmit={this.signUp}
+                  />
+                </Route>
+                <Redirect from="/members" to="/" />
+                <Redirect from="/orders" to="/" />
+                <Redirect from="/emails" to="/" />
+                <Redirect from="/sign-out" to="/" />
+              </Fragment>
+            ) : (
+              <Fragment>
+                <Redirect from="sign-in" to="/" />
+                <Redirect from="sign-up" to="/" />
+              </Fragment>
+            )}
+          </Switch>
+        </Router>
+        <button onClick={() => console.log(this.roleCheck("admin"))}>
+          test roleCheck
+        </button>
+      </Fragment>
+    );
+  }
 }
 
 export default App;
