@@ -50,6 +50,14 @@ class App extends Component {
       });
   };
 
+  fetchAllCustomers = () => {
+    fetch("http://localhost:3000/api/v1/all-customers")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   signIn = (e) => {
     e.preventDefault();
     fetch("http://localhost:3000/api/v1/login", {
@@ -72,6 +80,7 @@ class App extends Component {
             user: user.user,
           });
           sessionStorage.setItem("token", user.jwt);
+          this.roleCheck("admin", user.user) && this.fetchAllCustomers();
         }
       });
   };
