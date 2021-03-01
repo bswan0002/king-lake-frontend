@@ -16,6 +16,7 @@ import Emails from "./components/Emails";
 class App extends Component {
   state = {
     user: null,
+    allUsers: JSON.parse(localStorage.getItem("allUsers")) || null,
   };
 
   componentDidMount() {
@@ -54,7 +55,8 @@ class App extends Component {
     fetch("http://localhost:3000/api/v1/all-customers")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        this.setState({ allUsers: data });
+        localStorage.setItem("allUsers", JSON.stringify(data));
       });
   };
 
@@ -144,7 +146,10 @@ class App extends Component {
             {this.roleCheck("admin") ? (
               <Fragment>
                 <Route path="/members">
-                  <AllMembers checkRole={this.checkRoleFromValidated} />
+                  <AllMembers
+                    checkRole={this.checkRoleFromValidated}
+                    allUsers={this.state.allUsers}
+                  />
                 </Route>
                 <Route path="/orders">
                   <Orders checkRole={this.checkRoleFromValidated} />

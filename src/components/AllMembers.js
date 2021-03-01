@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MDBDataTableV5 } from "mdbreact";
 import { Container } from "react-bootstrap";
 
 const AllMembers = (props) => {
+  const [rows, setRows] = useState(null);
+
   useEffect(() => {
     props.checkRole("admin");
   });
@@ -56,9 +58,56 @@ const AllMembers = (props) => {
     ],
   };
 
+  const calculateCommitStatus = (user) => {
+    let bottlesPurchased = 0;
+    user.transactions?.forEach((transaction) => {
+      transaction.line_items?.forEach((line_item) => {
+        bottlesPurchased += parseInt(line_item.quantity);
+      });
+    });
+    return bottlesPurchased - user.db.commit_count;
+  };
+
+  const createRowData = () => {
+    const rows = props.allUsers.map((user) => {
+      return {
+        name: `${user.square.given_name} ${user.square.family_name}`,
+        email: user.square.email,
+        membership: user.square.membership_level,
+        commit: calculateCommitStatus(user),
+        clickEvent: handleRowClick,
+      };
+    });
+    return {
+      columns: [
+        {
+          label: "Name",
+          field: "name",
+          width: 150,
+        },
+        {
+          label: "Email",
+          field: "email",
+          width: 150,
+        },
+        {
+          label: "Membership",
+          field: "membership",
+          width: 150,
+        },
+        {
+          label: "Commitment Status",
+          field: "commit",
+          width: 150,
+        },
+      ],
+      rows: rows,
+    };
+  };
+
   return (
     <Container className="mt-4">
-      <h2>All Members</h2>
+      <h2 onClick={() => console.log(createRowData())}>All Members</h2>
       <MDBDataTableV5
         hover
         striped
@@ -68,7 +117,7 @@ const AllMembers = (props) => {
         searchBottom={false}
         entriesOptions={[10, 25, 50]}
         pagesAmount={4}
-        data={datatable}
+        data={createRowData()}
       />
     </Container>
   );
