@@ -25,7 +25,7 @@ const signInOrSignUp = ({ formType, handleSubmit }) => {
         />
       </Form.Group>
 
-      <Button variant="danger" type="submit">
+      <Button variant="primary" type="submit">
         Submit
       </Button>
     </Form>

@@ -1,11 +1,11 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
+import { Container } from "react-bootstrap";
 
 const Orders = (props) => {
   const fetchCustomerGroups = () => {
     fetch("http://localhost:3000/api/v1/customer-groups")
       .then((res) => res.json())
       .then((data) => {
-        debugger;
         console.log(data);
       });
   };
@@ -16,9 +16,9 @@ const Orders = (props) => {
   });
 
   return (
-    <Fragment>
-      <div>Orders</div>
-    </Fragment>
+    <Container className="mt-4">
+      <h2>Orders</h2>
+    </Container>
   );
 };
 

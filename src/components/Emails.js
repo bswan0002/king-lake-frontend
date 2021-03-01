@@ -1,13 +1,14 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
+import { Container } from "react-bootstrap";
 
 const Emails = (props) => {
   useEffect(() => {
     props.checkRole("admin");
   });
   return (
-    <Fragment>
-      <div>Emails</div>
-    </Fragment>
+    <Container className="mt-4">
+      <h2>Emails</h2>
+    </Container>
   );
 };
 

@@ -5,9 +5,15 @@ import { LinkContainer } from "react-router-bootstrap";
 const MyNav = (props) => {
   return (
     <Fragment>
-      <Navbar bg="primary" variant="dark">
+      <Navbar bg="dark-gray" variant="dark">
         <LinkContainer exact to="/">
-          <Navbar.Brand>KLCMembers</Navbar.Brand>
+          <Navbar.Brand>
+            <img
+              src={process.env.PUBLIC_URL + `/king-lake-logo.png`}
+              width="160"
+              alt="King Lake Cellars Logo"
+            />
+          </Navbar.Brand>
         </LinkContainer>
         <Nav className="mr-auto">
           {props.roleCheck("admin") ? (
