@@ -16,7 +16,7 @@ import Emails from "./components/Emails";
 class App extends Component {
   state = {
     user: null,
-    allUsers: JSON.parse(localStorage.getItem("allUsers")) || null,
+    userData: JSON.parse(localStorage.getItem("userData")) || null,
   };
 
   componentDidMount() {
@@ -55,9 +55,15 @@ class App extends Component {
     fetch("http://localhost:3000/api/v1/all-customers")
       .then((res) => res.json())
       .then((data) => {
-        this.setState({ allUsers: data });
-        localStorage.setItem("allUsers", JSON.stringify(data));
+        this.setState({ userData: data });
+        localStorage.setItem("userData", JSON.stringify(data));
       });
+  };
+
+  fetchThisMember = (square_id) => {
+    fetch(`http://localhost:3000/api/v1/members/${square_id}`)
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   signIn = (e) => {
@@ -83,6 +89,8 @@ class App extends Component {
           });
           sessionStorage.setItem("token", user.jwt);
           this.roleCheck("admin", user.user) && this.fetchAllCustomers();
+          this.roleCheck("member", user.user) &&
+            this.fetchThisMember(user.user.square_id);
         }
       });
   };
@@ -114,8 +122,9 @@ class App extends Component {
   };
 
   handleSignOut = () => {
+    localStorage.clear();
     sessionStorage.clear();
-    this.setState({ user: null });
+    this.setState({ user: null, userData: null });
   };
 
   roleCheck = (role, user = this.state.user) => {
@@ -148,7 +157,7 @@ class App extends Component {
                 <Route path="/members">
                   <AllMembers
                     checkRole={this.checkRoleFromValidated}
-                    allUsers={this.state.allUsers}
+                    allUsers={this.state.userData}
                   />
                 </Route>
                 <Route path="/orders">
@@ -157,6 +166,11 @@ class App extends Component {
                 <Route path="/emails">
                   <Emails checkRole={this.checkRoleFromValidated} />
                 </Route>
+              </Fragment>
+            ) : null}
+            {this.roleCheck("member") ? (
+              <Fragment>
+                <Route path />
               </Fragment>
             ) : null}
             {!this.state.user ? (
@@ -186,9 +200,6 @@ class App extends Component {
             )}
           </Switch>
         </Router>
-        <button onClick={() => console.log(this.roleCheck("admin"))}>
-          test roleCheck
-        </button>
       </Fragment>
     );
   }
