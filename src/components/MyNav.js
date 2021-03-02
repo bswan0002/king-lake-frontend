@@ -29,6 +29,16 @@ const MyNav = (props) => {
               </LinkContainer>
             </Fragment>
           ) : null}
+          {props.roleCheck("member") ? (
+            <Fragment>
+              <LinkContainer to="/home">
+                <Nav.Link>Home</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/orders">
+                <Nav.Link>Orders</Nav.Link>
+              </LinkContainer>
+            </Fragment>
+          ) : null}
         </Nav>
         <Nav>
           {!props.user ? (

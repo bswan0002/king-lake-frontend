@@ -12,6 +12,7 @@ import MyNav from "./components/MyNav";
 import AllMembers from "./components/AllMembers";
 import Orders from "./components/Orders";
 import Emails from "./components/Emails";
+import MemberDetails from "./components/MemberDetails";
 
 class App extends Component {
   state = {
@@ -63,7 +64,10 @@ class App extends Component {
   fetchThisMember = (square_id) => {
     fetch(`http://localhost:3000/api/v1/members/${square_id}`)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        this.setState({ userData: data });
+        localStorage.setItem("userData", JSON.stringify(data));
+      });
   };
 
   signIn = (e) => {
@@ -170,7 +174,12 @@ class App extends Component {
             ) : null}
             {this.roleCheck("member") ? (
               <Fragment>
-                <Route path />
+                <Route path="/home">
+                  <MemberDetails />
+                </Route>
+                {/* <Route path="/orders">
+                  <Orders />
+                </Route> */}
               </Fragment>
             ) : null}
             {!this.state.user ? (
