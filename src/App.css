@@ -9,3 +9,7 @@ body {
 .member-jumbo {
   background-color: #b5d1e6 !important;
 }
+
+.accordion-list {
+  max-height: 50vh;
+}
