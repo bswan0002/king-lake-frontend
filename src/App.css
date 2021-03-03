@@ -5,3 +5,7 @@ body {
 .bg-dark-gray {
   background-color: #403e41;
 }
+
+.member-jumbo {
+  background-color: #b5d1e6 !important;
+}

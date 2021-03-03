@@ -1,11 +1,24 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Container } from "react-bootstrap";
+import MemberJumbo from "./member_detail_components/MemberJumbo";
+import Transactions from "./member_detail_components/Transactions";
 
 const MemberDetails = (props) => {
   return (
-    <Container className="mt-4">
-      <h2>MemberDetails</h2>
-    </Container>
+    <Fragment>
+      {props.role === "member" ? (
+        <MemberJumbo
+          name={props.thisUserData.square.given_name}
+          membership={props.thisUserData.square.membership_level}
+        />
+      ) : null}
+      <Container>
+        <Transactions
+          thisUser={props.thisUser}
+          thisUserData={props.thisUserData}
+        />
+      </Container>
+    </Fragment>
   );
 };
 

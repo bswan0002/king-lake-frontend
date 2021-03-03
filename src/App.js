@@ -13,6 +13,7 @@ import AllMembers from "./components/AllMembers";
 import Orders from "./components/Orders";
 import Emails from "./components/Emails";
 import MemberDetails from "./components/MemberDetails";
+import Footer from "./components/Footer";
 
 class App extends Component {
   state = {
@@ -175,7 +176,11 @@ class App extends Component {
             {this.roleCheck("member") ? (
               <Fragment>
                 <Route path="/home">
-                  <MemberDetails />
+                  <MemberDetails
+                    role={"member"}
+                    thisUser={this.state.user}
+                    thisUserData={this.state.userData}
+                  />
                 </Route>
                 {/* <Route path="/orders">
                   <Orders />
@@ -209,6 +214,7 @@ class App extends Component {
             )}
           </Switch>
         </Router>
+        {/* <Footer /> */}
       </Fragment>
     );
   }
