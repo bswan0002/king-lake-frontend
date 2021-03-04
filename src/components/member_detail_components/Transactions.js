@@ -9,6 +9,7 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import CustomScrollDiv from "../utilities/CustomScrollDiv";
 
 function ContextAwareToggle({ eventKey, callback, bottles, date }) {
   const currentEventKey = useContext(AccordionContext);
@@ -62,13 +63,12 @@ const Transactions = (props) => {
   };
 
   return (
-    <div>
+    <div className="accordion-list">
       <h2>Transactions</h2>
       {/* <FontAwesomeIcon icon={faSortUp} /> */}
-
-      <Accordion className="overflow-auto accordion-list" defaultActiveKey="0">
-        {renderTransactionCards()}
-      </Accordion>
+      <CustomScrollDiv>
+        <Accordion defaultActiveKey="0">{renderTransactionCards()}</Accordion>
+      </CustomScrollDiv>
     </div>
   );
 };
