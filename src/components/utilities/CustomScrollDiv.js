@@ -90,11 +90,12 @@ export default function CustomScrollDiv({ children, className, ...restProps }) {
       SCROLL_BOX_MIN_HEIGHT
     );
     setScrollBoxHeight(scrollThumbHeight);
+    console.log(clientHeight);
     scrollHostElement.addEventListener("scroll", handleScroll, true);
     return function cleanup() {
       scrollHostElement.removeEventListener("scroll", handleScroll, true);
     };
-  }, []);
+  });
 
   useEffect(() => {
     //this is handle the dragging on scroll-thumb
