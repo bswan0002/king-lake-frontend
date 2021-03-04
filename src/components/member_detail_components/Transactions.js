@@ -23,7 +23,13 @@ function ContextAwareToggle({ eventKey, callback, bottles, date }) {
 
   return (
     <Card.Header
-      style={{ backgroundColor: isCurrentEventKey ? "pink" : "lavender" }}
+      style={{
+        backgroundColor: isCurrentEventKey
+          ? "pink"
+          : eventKey % 2 === 1
+          ? "#f2f2f2"
+          : "#cdcdcd",
+      }}
       onClick={decoratedOnClick}
     >
       <Row>
@@ -44,7 +50,7 @@ const Transactions = (props) => {
       const bottleTotal = transaction.line_items?.reduce((total, line_item) => {
         return total + parseInt(line_item.quantity);
       }, 0);
-      currentKey += 1;
+      bottleTotal && (currentKey += 1);
       return (
         bottleTotal && (
           <Card>

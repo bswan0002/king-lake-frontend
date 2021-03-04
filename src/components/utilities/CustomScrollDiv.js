@@ -10,8 +10,6 @@ export default function CustomScrollDiv({ children, className, ...restProps }) {
   const [lastScrollThumbPosition, setScrollThumbPosition] = useState(0);
   const [isDragging, setDragging] = useState(false);
 
-  const [toggleForResize, setToggle] = useState(false);
-
   const handleMouseOver = useCallback(() => {
     !hovering && setHovering(true);
   }, [hovering]);
@@ -90,7 +88,6 @@ export default function CustomScrollDiv({ children, className, ...restProps }) {
       SCROLL_BOX_MIN_HEIGHT
     );
     setScrollBoxHeight(scrollThumbHeight);
-    console.log(clientHeight);
     scrollHostElement.addEventListener("scroll", handleScroll, true);
     return function cleanup() {
       scrollHostElement.removeEventListener("scroll", handleScroll, true);
@@ -114,7 +111,6 @@ export default function CustomScrollDiv({ children, className, ...restProps }) {
       className={"scrollhost-container"}
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
-      onClick={() => setToggle(!toggleForResize)}
     >
       <div
         ref={scrollHostRef}
