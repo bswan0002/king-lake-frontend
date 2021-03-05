@@ -60,7 +60,7 @@ const AllMembers = (props) => {
 
   return (
     <Container className="mt-4">
-      <h2 onClick={() => console.log(createRowData())}>All Members</h2>
+      <h2>All Members</h2>
       {props.allUsers ? (
         <MDBDataTableV5
           hover

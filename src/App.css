@@ -13,3 +13,17 @@ body {
 .accordion-list {
   height: 50vh;
 }
+
+.x-icon {
+  vertical-align: -12px !important;
+  color: rgb(94, 94, 94);
+}
+
+.x-icon:hover {
+  background-color: lightblue;
+  transition: 300ms;
+}
+
+.icon-col {
+  /* text-align: center; */
+}

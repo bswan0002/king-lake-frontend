@@ -19,6 +19,7 @@ class App extends Component {
   state = {
     user: null,
     userData: JSON.parse(localStorage.getItem("userData")) || null,
+    wines: JSON.parse(localStorage.getItem("wines")) || null,
   };
 
   componentDidMount() {
@@ -71,6 +72,15 @@ class App extends Component {
       });
   };
 
+  fetchWines = () => {
+    fetch("http://localhost:3000/api/v1/wines")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ wines: data });
+        localStorage.setItem("wines", JSON.stringify(data));
+      });
+  };
+
   signIn = (e) => {
     e.preventDefault();
     fetch("http://localhost:3000/api/v1/login", {
@@ -96,6 +106,7 @@ class App extends Component {
           this.roleCheck("admin", user.user) && this.fetchAllCustomers();
           this.roleCheck("member", user.user) &&
             this.fetchThisMember(user.user.square_id);
+          this.fetchWines();
         }
       });
   };
@@ -129,7 +140,7 @@ class App extends Component {
   handleSignOut = () => {
     localStorage.clear();
     sessionStorage.clear();
-    this.setState({ user: null, userData: null });
+    this.setState({ user: null, userData: null, wines: null });
   };
 
   roleCheck = (role, user = this.state.user) => {
@@ -166,7 +177,7 @@ class App extends Component {
                   />
                 </Route>
                 <Route path="/orders">
-                  <Orders checkRole={this.checkRoleFromValidated} />
+                  <Orders role="admin" wines={this.state.wines} />
                 </Route>
                 <Route path="/emails">
                   <Emails checkRole={this.checkRoleFromValidated} />
@@ -182,9 +193,9 @@ class App extends Component {
                     thisUserData={this.state.userData}
                   />
                 </Route>
-                {/* <Route path="/orders">
-                  <Orders />
-                </Route> */}
+                <Route path="/orders">
+                  <Orders role="member" wines={this.state.wines} />
+                </Route>
               </Fragment>
             ) : null}
             {!this.state.user ? (
