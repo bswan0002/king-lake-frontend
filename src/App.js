@@ -161,71 +161,77 @@ class App extends Component {
   render() {
     return (
       <Fragment>
-        <Router>
-          <MyNav
-            roleCheck={this.roleCheck}
-            user={this.state.user}
-            handleSignOut={this.handleSignOut}
-          />
-          <Switch>
-            {this.roleCheck("admin") ? (
-              <Fragment>
-                <Route path="/members">
-                  <AllMembers
-                    checkRole={this.checkRoleFromValidated}
-                    allUsers={this.state.userData}
-                  />
-                </Route>
-                <Route path="/orders">
-                  <Orders role="admin" wines={this.state.wines} />
-                </Route>
-                <Route path="/emails">
-                  <Emails checkRole={this.checkRoleFromValidated} />
-                </Route>
-              </Fragment>
-            ) : null}
-            {this.roleCheck("member") ? (
-              <Fragment>
-                <Route path="/home">
-                  <MemberDetails
-                    role={"member"}
-                    thisUser={this.state.user}
-                    thisUserData={this.state.userData}
-                  />
-                </Route>
-                <Route path="/orders">
-                  <Orders role="member" wines={this.state.wines} />
-                </Route>
-              </Fragment>
-            ) : null}
-            {!this.state.user ? (
-              <Fragment>
-                <Route path="/sign-in">
-                  <SignInOrSignUp
-                    formType="Sign In"
-                    handleSubmit={this.signIn}
-                  />
-                </Route>
-                <Route path="/sign-up">
-                  <SignInOrSignUp
-                    formType="Sign Up"
-                    handleSubmit={this.signUp}
-                  />
-                </Route>
-                <Redirect from="/members" to="/" />
-                <Redirect from="/orders" to="/" />
-                <Redirect from="/emails" to="/" />
-                <Redirect from="/sign-out" to="/" />
-              </Fragment>
-            ) : (
-              <Fragment>
-                <Redirect from="sign-in" to="/" />
-                <Redirect from="sign-up" to="/" />
-              </Fragment>
-            )}
-          </Switch>
-        </Router>
-        {/* <Footer /> */}
+        <div className="body">
+          <Router>
+            <MyNav
+              roleCheck={this.roleCheck}
+              user={this.state.user}
+              handleSignOut={this.handleSignOut}
+            />
+            <Switch>
+              {this.roleCheck("admin") ? (
+                <Fragment>
+                  <Route path="/members">
+                    <AllMembers
+                      checkRole={this.checkRoleFromValidated}
+                      allUsers={this.state.userData}
+                    />
+                  </Route>
+                  <Route path="/orders">
+                    <Orders role="admin" wines={this.state.wines} />
+                  </Route>
+                  <Route path="/emails">
+                    <Emails checkRole={this.checkRoleFromValidated} />
+                  </Route>
+                </Fragment>
+              ) : null}
+              {this.roleCheck("member") ? (
+                <Fragment>
+                  <Route path="/home">
+                    <MemberDetails
+                      role={"member"}
+                      thisUser={this.state.user}
+                      thisUserData={this.state.userData}
+                    />
+                  </Route>
+                  <Route path="/orders">
+                    <Orders
+                      role="member"
+                      wines={this.state.wines}
+                      fetchUserByToken={this.fetchUserByToken}
+                    />
+                  </Route>
+                </Fragment>
+              ) : null}
+              {!this.state.user ? (
+                <Fragment>
+                  <Route path="/sign-in">
+                    <SignInOrSignUp
+                      formType="Sign In"
+                      handleSubmit={this.signIn}
+                    />
+                  </Route>
+                  <Route path="/sign-up">
+                    <SignInOrSignUp
+                      formType="Sign Up"
+                      handleSubmit={this.signUp}
+                    />
+                  </Route>
+                  <Redirect from="/members" to="/" />
+                  <Redirect from="/orders" to="/" />
+                  <Redirect from="/emails" to="/" />
+                  <Redirect from="/sign-out" to="/" />
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <Redirect from="sign-in" to="/" />
+                  <Redirect from="sign-up" to="/" />
+                </Fragment>
+              )}
+            </Switch>
+          </Router>
+        </div>
+        <Footer />
       </Fragment>
     );
   }

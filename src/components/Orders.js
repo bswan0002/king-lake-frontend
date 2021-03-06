@@ -7,7 +7,12 @@ const Orders = (props) => {
   return (
     <Container className="mt-4">
       {props.role === "admin" && <AdminOrders />}
-      {props.role === "member" && <MemberOrders wines={props.wines} />}
+      {props.role === "member" && (
+        <MemberOrders
+          wines={props.wines}
+          fetchUserByToken={props.fetchUserByToken}
+        />
+      )}
     </Container>
   );
 };

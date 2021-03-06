@@ -6,7 +6,7 @@ import NumericInput from "react-numeric-input";
 
 const MemberOrders = (props) => {
   const [formInputs, setFormInputs] = useState({
-    0: { wine: props.wines[0].name, quantity: 1 },
+    0: { wine: props.wines[0]?.name, quantity: 1 },
   });
 
   const wineOptions = () => {
@@ -100,8 +100,22 @@ const MemberOrders = (props) => {
     });
   };
 
-  const handleSubmit = () => {
-    console.log("handleSubmit");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let thisUser = await props.fetchUserByToken();
+    console.log(thisUser.id, formInputs);
+    fetch("http://localhost:3000/api/v1/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: thisUser.id,
+        wines: formInputs,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   return (
@@ -118,7 +132,7 @@ const MemberOrders = (props) => {
         </Form.Row>
         {createInputs()}
         <Form.Row className="mt-1 d-flex justify-content-between">
-          <Button>Submit</Button>
+          <Button type="submit">Submit</Button>
           <Button onClick={addInput}>Add Wine</Button>
         </Form.Row>
       </Form>
