@@ -20,6 +20,7 @@ class App extends Component {
     user: null,
     userData: JSON.parse(localStorage.getItem("userData")) || null,
     wines: JSON.parse(localStorage.getItem("wines")) || null,
+    orders: JSON.parse(localStorage.getItem("orders") || null),
   };
 
   componentDidMount() {
@@ -81,6 +82,15 @@ class App extends Component {
       });
   };
 
+  fetchOrders = () => {
+    fetch("http://localhost:3000/api/v1/orders")
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({ orders: data });
+        localStorage.setItem("orders", JSON.stringify(data));
+      });
+  };
+
   signIn = (e) => {
     e.preventDefault();
     fetch("http://localhost:3000/api/v1/login", {
@@ -104,6 +114,7 @@ class App extends Component {
           });
           sessionStorage.setItem("token", user.jwt);
           this.roleCheck("admin", user.user) && this.fetchAllCustomers();
+          this.roleCheck("admin", user.user) && this.fetchOrders();
           this.roleCheck("member", user.user) &&
             this.fetchThisMember(user.user.square_id);
           this.fetchWines();
@@ -178,7 +189,11 @@ class App extends Component {
                     />
                   </Route>
                   <Route path="/orders">
-                    <Orders role="admin" wines={this.state.wines} />
+                    <Orders
+                      role="admin"
+                      wines={this.state.wines}
+                      orders={this.state.orders}
+                    />
                   </Route>
                   <Route path="/emails">
                     <Emails checkRole={this.checkRoleFromValidated} />

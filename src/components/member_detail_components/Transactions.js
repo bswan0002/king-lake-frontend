@@ -46,7 +46,7 @@ function ContextAwareToggle({ eventKey, callback, bottles, date }) {
 const Transactions = (props) => {
   const renderTransactionCards = () => {
     let currentKey = 0;
-    return props.thisUserData.transactions.map((transaction) => {
+    return props.thisUserData?.transactions.map((transaction) => {
       const bottleTotal = transaction.line_items?.reduce((total, line_item) => {
         return total + parseInt(line_item.quantity);
       }, 0);
@@ -68,14 +68,26 @@ const Transactions = (props) => {
     });
   };
 
-  return (
+  const accordionHeight = () => {
+    const height = props.thisUserData?.transactions?.length * 49;
+    return height > 439 ? 439 : height;
+  };
+
+  return props.thisUserData ? (
     <div className="accordion-list">
-      <h2>Transactions</h2>
+      <h2 className="mb-3">Transactions</h2>
       {/* <FontAwesomeIcon icon={faSortUp} /> */}
       <CustomScrollDiv>
-        <Accordion defaultActiveKey="0">{renderTransactionCards()}</Accordion>
+        <Accordion
+          style={{ height: `${accordionHeight() || 500}px` }}
+          defaultActiveKey="0"
+        >
+          {renderTransactionCards()}
+        </Accordion>
       </CustomScrollDiv>
     </div>
+  ) : (
+    <h2>Loading...</h2>
   );
 };
 

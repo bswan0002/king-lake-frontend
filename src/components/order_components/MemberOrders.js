@@ -15,13 +15,18 @@ const MemberOrders = (props) => {
     ));
   };
 
+  const getPriceBy = (wineName) => {
+    const price = props.wines
+      .find((wine) => wine.name === wineName)
+      .price?.toFixed(2);
+    return price && `$${price.slice(0, 2) + price.slice(4)}`;
+  };
+
   const createInputs = () => {
-    console.log(formInputs);
     return Object.keys(formInputs).map((key) => {
-      console.log(key);
       return (
         <Form.Row key={key} className="mt-1">
-          <Col xs={7}>
+          <Col xs={5}>
             <Form.Control
               id={`${key}`}
               name="wine"
@@ -32,7 +37,15 @@ const MemberOrders = (props) => {
               {wineOptions()}
             </Form.Control>
           </Col>
-          <Col xs={4}>
+          <Col xs={3}>
+            <Form.Control
+              disabled
+              id={`${key}`}
+              name="price"
+              placeholder={getPriceBy(formInputs[`${key}`]?.wine)}
+            />
+          </Col>
+          <Col xs={3}>
             <NumericInput
               className="form-control"
               id={`${key}`}
@@ -65,7 +78,6 @@ const MemberOrders = (props) => {
   };
 
   const removeInput = (e) => {
-    console.log(e.target.id);
     let formInputsCopy = { ...formInputs };
     delete formInputsCopy[e.target.id];
     let newFormInputs = {};
@@ -90,7 +102,6 @@ const MemberOrders = (props) => {
   };
 
   const handleQuantityChange = (valNum, valStr, inputElement) => {
-    console.log(valNum, valStr, inputElement.id);
     setFormInputs({
       ...formInputs,
       [inputElement.id]: {
@@ -103,7 +114,6 @@ const MemberOrders = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let thisUser = await props.fetchUserByToken();
-    console.log(thisUser.id, formInputs);
     fetch("http://localhost:3000/api/v1/orders", {
       method: "POST",
       headers: {
@@ -121,19 +131,32 @@ const MemberOrders = (props) => {
   return (
     <div>
       <h2>New Order for Pickup</h2>
+      <hr />
       <Form onSubmit={handleSubmit}>
         <Form.Row>
-          <Col xs={7}>
+          <Col xs={5}>
             <Form.Label as={"h3"}>Wine</Form.Label>
           </Col>
-          <Col>
+          <Col xs={3}>
+            <Form.Label as={"h3"}>Price</Form.Label>
+          </Col>
+          <Col xs={3}>
             <Form.Label as={"h3"}>Quantity</Form.Label>
           </Col>
         </Form.Row>
         {createInputs()}
-        <Form.Row className="mt-1 d-flex justify-content-between">
+        {/* <Form.Row className="mt-1 d-flex justify-content-between">
           <Button type="submit">Submit</Button>
           <Button onClick={addInput}>Add Wine</Button>
+        </Form.Row> */}
+        <Form.Row className="mt-2">
+          <Col xs={5}>
+            <Button type="submit">Submit</Button>
+          </Col>
+          <Col xs={6} className="d-flex justify-content-end">
+            <Button onClick={addInput}>Add Wine</Button>
+          </Col>
+          <Col xs={1} />
         </Form.Row>
       </Form>
     </div>

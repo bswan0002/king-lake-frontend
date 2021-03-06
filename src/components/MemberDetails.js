@@ -8,8 +8,8 @@ const MemberDetails = (props) => {
     <Fragment>
       {props.role === "member" ? (
         <MemberJumbo
-          name={props.thisUserData.square.given_name}
-          membership={props.thisUserData.square.membership_level}
+          name={props.thisUserData?.square.given_name}
+          membership={props.thisUserData?.square.membership_level}
         />
       ) : null}
       <Container>
