@@ -36,7 +36,9 @@ function ContextAwareToggle({ eventKey, callback, member, date, pickup_date }) {
         <Col>
           <HandleDate date={date} />
         </Col>
-        <Col>{`for pickup on ${pickup_date}`}</Col>
+        <Col>
+          For pickup on: {pickup_date && <HandleDate date={pickup_date} />}
+        </Col>
         <Col xs={1} style={{ textAlign: "right" }}>
           <FontAwesomeIcon icon={isCurrentEventKey ? faSortUp : faSortDown} />
         </Col>

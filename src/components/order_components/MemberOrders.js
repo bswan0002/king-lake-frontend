@@ -4,11 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusSquare } from "@fortawesome/free-regular-svg-icons";
 import NumericInput from "react-numeric-input";
 import MemberOrderList from "./MemberOrderList";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const MemberOrders = (props) => {
   const [formInputs, setFormInputs] = useState({
     0: { wine: props.wines[0]?.name, quantity: 1 },
   });
+
+  const [startDate, setStartDate] = useState(new Date());
 
   const [fetchAgain, setFetchAgain] = useState(1);
 
@@ -125,11 +129,13 @@ const MemberOrders = (props) => {
       body: JSON.stringify({
         user_id: thisUser.id,
         wines: formInputs,
+        pickup_date: startDate,
       }),
     }).then(
       setFormInputs({
         0: { wine: props.wines[0]?.name, quantity: 1 },
       }),
+      setStartDate(new Date()),
       setFetchAgain(fetchAgain + 1)
     );
   };
@@ -140,9 +146,13 @@ const MemberOrders = (props) => {
       <hr />
       <Form onSubmit={handleSubmit}>
         <Form.Row>
-          <Col>
-            <Form.Label as={"h3"}>For Pickup on:</Form.Label>
-          </Col>
+          <h4>
+            For Pickup on:{" "}
+            <DatePicker
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+            />
+          </h4>
         </Form.Row>
         <Form.Row>
           <Col xs={5}>

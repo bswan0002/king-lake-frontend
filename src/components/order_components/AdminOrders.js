@@ -11,7 +11,7 @@ import {
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
 
-const AdminOrders = () => {
+const AdminOrders = (props) => {
   const [orders, setOrders] = useState(false);
   const [completed, setCompleted] = useState({});
 
@@ -80,6 +80,11 @@ const AdminOrders = () => {
       );
   };
 
+  const nameById = (id) => {
+    let thisUser = props.userData.find((user) => user.db.id === id);
+    return `${thisUser.square.given_name} ${thisUser.square.family_name}`;
+  };
+
   const renderOrderCards = (status) => {
     let currentKey = 0;
     return (
@@ -94,7 +99,7 @@ const AdminOrders = () => {
             <Card>
               <ContextAwareToggle
                 eventKey={`${currentKey}`}
-                member={order.user_id}
+                member={nameById(order.user_id)}
                 date={order.created_at}
                 pickup_date={order.pickup_date}
               />
@@ -153,7 +158,10 @@ const AdminOrders = () => {
       <h2 className="mb-3">Pending Orders</h2>
       {orders ? (
         <CustomScrollDiv>
-          <Accordion> {renderOrderCards("pending")}</Accordion>
+          <Accordion style={{ maxHeight: "400px" }}>
+            {" "}
+            {renderOrderCards("pending")}
+          </Accordion>
         </CustomScrollDiv>
       ) : (
         <h3>Retrieving Orders...</h3>
@@ -163,7 +171,10 @@ const AdminOrders = () => {
       <h2>Completed Orders</h2>
       {orders ? (
         <CustomScrollDiv>
-          <Accordion> {renderOrderCards("completed")}</Accordion>
+          <Accordion style={{ maxHeight: "400px" }}>
+            {" "}
+            {renderOrderCards("completed")}
+          </Accordion>
         </CustomScrollDiv>
       ) : null}
     </div>

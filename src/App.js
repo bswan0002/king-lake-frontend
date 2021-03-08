@@ -178,7 +178,11 @@ class App extends Component {
                     />
                   </Route>
                   <Route path="/orders">
-                    <Orders role="admin" wines={this.state.wines} />
+                    <Orders
+                      role="admin"
+                      wines={this.state.wines}
+                      userData={this.state.userData}
+                    />
                   </Route>
                   <Route path="/emails">
                     <Emails checkRole={this.checkRoleFromValidated} />

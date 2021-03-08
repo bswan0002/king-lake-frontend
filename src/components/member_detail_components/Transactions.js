@@ -6,6 +6,7 @@ import {
   Card,
   Row,
   Col,
+  ListGroup,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
@@ -34,7 +35,9 @@ function ContextAwareToggle({ eventKey, callback, bottles, date }) {
       onClick={decoratedOnClick}
     >
       <Row>
-        <Col xs={5}>{`${bottles} Bottles Purchased on:`}</Col>
+        <Col xs={5}>{`${bottles} ${
+          bottles > 1 ? "Bottles" : "Bottle"
+        } Purchased on:`}</Col>
         <Col>
           <HandleDate date={date} />
         </Col>
@@ -47,6 +50,18 @@ function ContextAwareToggle({ eventKey, callback, bottles, date }) {
 }
 
 const Transactions = (props) => {
+  const renderWineList = (items) => {
+    return items.map((item) => {
+      return (
+        <ListGroup.Item>
+          <Row>
+            <Col xs={10}>{item.name}</Col>
+            <Col>x{item.quantity}</Col>
+          </Row>
+        </ListGroup.Item>
+      );
+    });
+  };
   const renderTransactionCards = () => {
     let currentKey = 0;
     return props.thisUserData?.transactions.map((transaction) => {
@@ -63,7 +78,7 @@ const Transactions = (props) => {
               date={transaction.created_at}
             />
             <Accordion.Collapse eventKey={`${currentKey}`}>
-              <Card.Body>Hello! I'm the body</Card.Body>
+              <Card.Body>{renderWineList(transaction.line_items)}</Card.Body>
             </Accordion.Collapse>
           </Card>
         )
