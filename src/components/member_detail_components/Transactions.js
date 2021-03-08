@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
+import HandleDate from "../order_components/HandleDate";
 
 function ContextAwareToggle({ eventKey, callback, bottles, date }) {
   const currentEventKey = useContext(AccordionContext);
@@ -34,7 +35,9 @@ function ContextAwareToggle({ eventKey, callback, bottles, date }) {
     >
       <Row>
         <Col xs={5}>{`${bottles} Bottles Purchased on:`}</Col>
-        <Col>{date}</Col>
+        <Col>
+          <HandleDate date={date} />
+        </Col>
         <Col style={{ textAlign: "right" }}>
           <FontAwesomeIcon icon={isCurrentEventKey ? faSortUp : faSortDown} />
         </Col>
@@ -53,7 +56,7 @@ const Transactions = (props) => {
       bottleTotal && (currentKey += 1);
       return (
         bottleTotal && (
-          <Card>
+          <Card key={currentKey}>
             <ContextAwareToggle
               eventKey={`${currentKey}`}
               bottles={bottleTotal}
@@ -68,20 +71,11 @@ const Transactions = (props) => {
     });
   };
 
-  const accordionHeight = () => {
-    const height = props.thisUserData?.transactions?.length * 49;
-    return height > 439 ? 439 : height;
-  };
-
   return props.thisUserData ? (
     <div className="accordion-list">
       <h2 className="mb-3">Transactions</h2>
-      {/* <FontAwesomeIcon icon={faSortUp} /> */}
       <CustomScrollDiv>
-        <Accordion
-          style={{ height: `${accordionHeight() || 500}px` }}
-          defaultActiveKey="0"
-        >
+        <Accordion className="transaction-accordion-list" defaultActiveKey="0">
           {renderTransactionCards()}
         </Accordion>
       </CustomScrollDiv>

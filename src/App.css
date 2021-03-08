@@ -60,6 +60,14 @@ body {
   -webkit-background-clip: text;
 }
 
+.order-accordion-list {
+  max-height: 300px;
+}
+
+.transaction-accordion-list {
+  max-height: 500px;
+}
+
 footer {
   color: white;
   flex-shrink: 0;

@@ -3,11 +3,14 @@ import { Form, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusSquare } from "@fortawesome/free-regular-svg-icons";
 import NumericInput from "react-numeric-input";
+import MemberOrderList from "./MemberOrderList";
 
 const MemberOrders = (props) => {
   const [formInputs, setFormInputs] = useState({
     0: { wine: props.wines[0]?.name, quantity: 1 },
   });
+
+  const [fetchAgain, setFetchAgain] = useState(1);
 
   const wineOptions = () => {
     return props.wines.map((wine) => (
@@ -123,9 +126,12 @@ const MemberOrders = (props) => {
         user_id: thisUser.id,
         wines: formInputs,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    }).then(
+      setFormInputs({
+        0: { wine: props.wines[0]?.name, quantity: 1 },
+      }),
+      setFetchAgain(fetchAgain + 1)
+    );
   };
 
   return (
@@ -159,6 +165,11 @@ const MemberOrders = (props) => {
           <Col xs={1} />
         </Form.Row>
       </Form>
+      <hr />
+      <MemberOrderList
+        fetchUserByToken={props.fetchUserByToken}
+        fetchAgain={fetchAgain}
+      />
     </div>
   );
 };

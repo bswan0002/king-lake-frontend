@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {
-  Accordion,
-  Card,
-  Row,
-  Col,
-  ListGroup,
-  Form,
-  Button,
-} from "react-bootstrap";
+import { Accordion, Card, Row, Col, ListGroup, Form } from "react-bootstrap";
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
 
-const AdminOrders = () => {
+const MemberOrderList = (props) => {
   const [orders, setOrders] = useState(false);
   const [completed, setCompleted] = useState({});
 
-  const fetchOrders = () => {
-    fetch("http://localhost:3000/api/v1/orders")
+  useEffect(() => {
+    props.fetchUserByToken().then((user) => fetchOrders(user.id));
+  }, [props.fetchAgain]);
+
+  const fetchOrders = (id) => {
+    fetch(`http://localhost:3000/api/v1/orders/${id}`)
       .then((res) => res.json())
       .then((orderRes) => {
         setOrders(orderRes);
@@ -33,9 +29,6 @@ const AdminOrders = () => {
         });
       });
   };
-
-  useEffect(fetchOrders, []);
-
   const renderWineList = (items) => {
     return items.map((item) => {
       return (
@@ -49,43 +42,11 @@ const AdminOrders = () => {
     });
   };
 
-  const handleChange = (e) => {
-    let index = orders.findIndex((order) => order.id === parseInt(e.target.id));
-    let newOrders = [...orders];
-    newOrders[index][e.target.name] = e.target.checked;
-    setOrders(newOrders);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let index = orders.findIndex((order) => order.id === parseInt(e.target.id));
-
-    fetch(`http://localhost:3000/api/v1/orders/${orders[index].id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json",
-      },
-      body: JSON.stringify(orders[index]),
-    })
-      .then((res) => res.json())
-      .then((order) =>
-        setCompleted(() => {
-          if (order.prepared && order.paid_for && order.picked_up) {
-            return { ...completed, [order.id]: true };
-          } else {
-            return { ...completed, [order.id]: false };
-          }
-        })
-      );
-  };
-
   const renderOrderCards = (status) => {
     let currentKey = 0;
     return (
       orders &&
       orders.map((order) => {
-        console.log(order);
         currentKey += 1;
         if (
           (status === "pending" && !completed[order.id]) ||
@@ -95,7 +56,7 @@ const AdminOrders = () => {
             <Card>
               <ContextAwareToggle
                 eventKey={`${currentKey}`}
-                member={order.user_id}
+                member=""
                 date={order.created_at}
                 pickup_date={order.pickup_date}
               />
@@ -110,14 +71,13 @@ const AdminOrders = () => {
                       <ListGroup>{renderWineList(order.items)}</ListGroup>
                     </Col>
                     <Col>
-                      <Form onSubmit={handleSubmit} id={order.id}>
+                      <Form id={order.id}>
                         <Form.Check
                           className="mt-2"
                           id={order.id}
                           label="Prepared"
                           name="prepared"
                           checked={order.prepared}
-                          onChange={handleChange}
                         />
                         <Form.Check
                           className="mt-2"
@@ -125,7 +85,6 @@ const AdminOrders = () => {
                           label="Paid for"
                           name="paid_for"
                           checked={order.paid_for}
-                          onChange={handleChange}
                         />
                         <Form.Check
                           className="mt-2"
@@ -133,11 +92,7 @@ const AdminOrders = () => {
                           label="Picked up"
                           name="picked_up"
                           checked={order.picked_up}
-                          onChange={handleChange}
                         />
-                        <Button size="sm" type="submit">
-                          Save Status
-                        </Button>
                       </Form>
                     </Col>
                   </Row>
@@ -149,12 +104,16 @@ const AdminOrders = () => {
       })
     );
   };
+
   return (
     <div>
       <h2 className="mb-3">Pending Orders</h2>
       {orders ? (
         <CustomScrollDiv>
-          <Accordion> {renderOrderCards("pending")}</Accordion>
+          <Accordion className="order-accordion-list">
+            {" "}
+            {renderOrderCards("pending")}
+          </Accordion>
         </CustomScrollDiv>
       ) : (
         <h3>Retrieving Orders...</h3>
@@ -164,11 +123,14 @@ const AdminOrders = () => {
       <h2>Completed Orders</h2>
       {orders ? (
         <CustomScrollDiv>
-          <Accordion> {renderOrderCards("completed")}</Accordion>
+          <Accordion className="order-accordion-list">
+            {" "}
+            {renderOrderCards("completed")}
+          </Accordion>
         </CustomScrollDiv>
       ) : null}
     </div>
   );
 };
 
-export default AdminOrders;
+export default MemberOrderList;
