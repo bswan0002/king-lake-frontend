@@ -81,15 +81,25 @@ const AdminOrders = (props) => {
   };
 
   const nameById = (id) => {
-    let thisUser = props.userData.find((user) => user.db.id === id);
-    return `${thisUser.square.given_name} ${thisUser.square.family_name}`;
+    if (props.userData) {
+      let thisUser = props.userData.find((user) => user.db.id === id);
+      return `${thisUser.square.given_name} ${thisUser.square.family_name}`;
+    } else {
+      return `Finding user from Square...`;
+    }
+  };
+
+  const sortOrders = () => {
+    return (
+      orders && orders.sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
+    );
   };
 
   const renderOrderCards = (status) => {
     let currentKey = 0;
     return (
       orders &&
-      orders.map((order) => {
+      sortOrders().map((order) => {
         if (
           (status === "pending" && !completed[order.id]) ||
           (status === "completed" && completed[order.id])

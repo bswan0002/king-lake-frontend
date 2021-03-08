@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { MDBDataTableV5 } from "mdbreact";
 import { Container, Button } from "react-bootstrap";
 import Transactions from "./member_detail_components/Transactions";
+import MemberJumbo from "./member_detail_components/MemberJumbo";
 
 const AllMembers = (props) => {
   useEffect(() => {
@@ -65,34 +66,49 @@ const AllMembers = (props) => {
   };
 
   return (
-    <Container className="mt-4">
-      <div style={{ display: memberDetail && "none" }}>
-        <h2>All Members</h2>
-        {props.allUsers ? (
-          <MDBDataTableV5
-            hover
-            striped
-            materialSearch
-            pagingTop
-            searchTop
-            searchBottom={false}
-            entriesOptions={[10, 25, 50]}
-            pagesAmount={4}
-            data={createRowData()}
-          />
-        ) : (
-          <h3>Retrieving Data from Square...</h3>
-        )}
-      </div>
+    <Fragment>
+      <Container>
+        <div style={{ display: memberDetail && "none" }}>
+          <h2 className="mt-4">All Members</h2>
+          {props.allUsers ? (
+            <MDBDataTableV5
+              hover
+              striped
+              materialSearch
+              pagingTop
+              searchTop
+              searchBottom={false}
+              entriesOptions={[10, 25, 50]}
+              pagesAmount={4}
+              data={createRowData()}
+            />
+          ) : (
+            <h3>Retrieving Data from Square...</h3>
+          )}
+        </div>
+      </Container>
       <div style={{ display: !memberDetail && "none" }}>
-        <Button className="mb-4" onClick={() => setMemberDetail(false)}>
+        {/* <Button className="mb-4" onClick={() => setMemberDetail(false)}>
           Back to All Members
         </Button>
         <h2>{`${memberDetail?.square?.given_name} ${memberDetail?.square?.family_name}`}</h2>
-        <hr />
-        {memberDetail && <Transactions thisUserData={memberDetail} />}
+        <hr /> */}
+        {memberDetail && (
+          <MemberJumbo
+            name={`${memberDetail.square.given_name} ${memberDetail.square.family_name}`}
+            membership={memberDetail.square.membership_level}
+            thisUserData={memberDetail}
+            admin={true}
+          />
+        )}
+        <Container>
+          <Button className="mb-4" onClick={() => setMemberDetail(false)}>
+            Back to All Members
+          </Button>
+          {memberDetail && <Transactions thisUserData={memberDetail} />}
+        </Container>
       </div>
-    </Container>
+    </Fragment>
   );
 };
 
