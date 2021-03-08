@@ -197,10 +197,6 @@ const MemberOrders = (props) => {
           </Col>
         </Form.Row>
         {createInputs()}
-        {/* <Form.Row className="mt-1 d-flex justify-content-between">
-          <Button type="submit">Submit</Button>
-          <Button onClick={addInput}>Add Wine</Button>
-        </Form.Row> */}
         <Form.Row className="mt-2">
           <Col xs={5}>
             <Button type="submit">Submit</Button>

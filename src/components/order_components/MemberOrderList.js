@@ -73,6 +73,7 @@ const MemberOrderList = (props) => {
                     <Col>
                       <Form id={order.id}>
                         <Form.Check
+                          disabled
                           className="mt-2"
                           id={order.id}
                           label="Prepared"
@@ -80,6 +81,7 @@ const MemberOrderList = (props) => {
                           checked={order.prepared}
                         />
                         <Form.Check
+                          disabled
                           className="mt-2"
                           id={order.id}
                           label="Paid for"
@@ -87,6 +89,7 @@ const MemberOrderList = (props) => {
                           checked={order.paid_for}
                         />
                         <Form.Check
+                          disabled
                           className="mt-2"
                           id={order.id}
                           label="Picked up"
