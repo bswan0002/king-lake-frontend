@@ -11,6 +11,7 @@ const Orders = (props) => {
         <MemberOrders
           wines={props.wines}
           fetchUserByToken={props.fetchUserByToken}
+          membershipLevel={props.membershipLevel}
         />
       )}
     </Container>

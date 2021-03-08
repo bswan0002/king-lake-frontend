@@ -140,6 +140,37 @@ const MemberOrders = (props) => {
     );
   };
 
+  const getTotal = () => {
+    let total = 0;
+    Object.keys(formInputs).forEach((index) => {
+      let currentWine = props.wines.find(
+        (wine) => wine.name === formInputs[index].wine
+      );
+      total += currentWine.price * formInputs[index].quantity;
+    });
+    return total;
+  };
+
+  const currencyFormat = (amount) => {
+    if (amount === 0) {
+      return "$0";
+    } else {
+      return `$${amount.toString().slice(0, -2)}.${amount
+        .toString()
+        .slice(-2)}`;
+    }
+  };
+
+  const discountTotal = () => {
+    return props.membershipLevel === "Platinum"
+      ? getTotal() * 0.2
+      : getTotal() * 0.15;
+  };
+
+  const total = () => {
+    return getTotal() - discountTotal();
+  };
+
   return (
     <div>
       <h2>New Order for Pickup</h2>
@@ -159,7 +190,7 @@ const MemberOrders = (props) => {
             <Form.Label as={"h3"}>Wine</Form.Label>
           </Col>
           <Col xs={3}>
-            <Form.Label as={"h3"}>Price</Form.Label>
+            <Form.Label as={"h3"}>Price per Bottle</Form.Label>
           </Col>
           <Col xs={3}>
             <Form.Label as={"h3"}>Quantity</Form.Label>
@@ -178,6 +209,11 @@ const MemberOrders = (props) => {
             <Button onClick={addInput}>Add Wine</Button>
           </Col>
           <Col xs={1} />
+        </Form.Row>
+        <Form.Row className="mt-2">
+          Current Total: {currencyFormat(getTotal())} - {props.membershipLevel}{" "}
+          Discount [{currencyFormat(discountTotal())}] ={" "}
+          {currencyFormat(total())} (before applicable taxes)
         </Form.Row>
       </Form>
       <hr />

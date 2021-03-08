@@ -47,11 +47,11 @@ const MemberOrderList = (props) => {
     return (
       orders &&
       orders.map((order) => {
-        currentKey += 1;
         if (
           (status === "pending" && !completed[order.id]) ||
           (status === "completed" && completed[order.id])
         ) {
+          currentKey += 1;
           return (
             <Card>
               <ContextAwareToggle

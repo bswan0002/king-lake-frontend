@@ -203,6 +203,9 @@ class App extends Component {
                       role="member"
                       wines={this.state.wines}
                       fetchUserByToken={this.fetchUserByToken}
+                      membershipLevel={
+                        this.state.userData?.square?.membership_level
+                      }
                     />
                   </Route>
                 </Fragment>

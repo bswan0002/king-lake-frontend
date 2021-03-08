@@ -4217,6 +4217,11 @@
   "resolved" "https://registry.npmjs.org/csstype/-/csstype-3.0.6.tgz"
   "version" "3.0.6"
 
+"currency.js@^2.0.3":
+  "integrity" "sha512-3rtzulRMwUJHmH0EPKiO/taYEGWlLSG2rpBOaHhfaY1dPGqK595mjg4t4bksy7glHEPZry7l5xSpXECs1eFrWg=="
+  "resolved" "https://registry.npmjs.org/currency.js/-/currency.js-2.0.3.tgz"
+  "version" "2.0.3"
+
 "cyclist@^1.0.1":
   "integrity" "sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk="
   "resolved" "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz"
