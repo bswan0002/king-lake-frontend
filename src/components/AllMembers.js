@@ -1,14 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MDBDataTableV5 } from "mdbreact";
-import { Container } from "react-bootstrap";
+import { Container, Button } from "react-bootstrap";
+import Transactions from "./member_detail_components/Transactions";
 
 const AllMembers = (props) => {
   useEffect(() => {
     props.checkRole("admin");
   });
 
+  const [memberDetail, setMemberDetail] = useState(false);
+
   const handleRowClick = (e) => {
-    console.log(e);
+    let selectedUser = props.allUsers.find(
+      (user) => user.square.email === e.email
+    );
+    setMemberDetail(selectedUser);
   };
 
   const calculateCommitStatus = (user) => {
@@ -60,22 +66,32 @@ const AllMembers = (props) => {
 
   return (
     <Container className="mt-4">
-      <h2>All Members</h2>
-      {props.allUsers ? (
-        <MDBDataTableV5
-          hover
-          striped
-          materialSearch
-          pagingTop
-          searchTop
-          searchBottom={false}
-          entriesOptions={[10, 25, 50]}
-          pagesAmount={4}
-          data={createRowData()}
-        />
-      ) : (
-        <h3>Retrieving Data from Square...</h3>
-      )}
+      <div style={{ display: memberDetail && "none" }}>
+        <h2>All Members</h2>
+        {props.allUsers ? (
+          <MDBDataTableV5
+            hover
+            striped
+            materialSearch
+            pagingTop
+            searchTop
+            searchBottom={false}
+            entriesOptions={[10, 25, 50]}
+            pagesAmount={4}
+            data={createRowData()}
+          />
+        ) : (
+          <h3>Retrieving Data from Square...</h3>
+        )}
+      </div>
+      <div style={{ display: !memberDetail && "none" }}>
+        <Button className="mb-4" onClick={() => setMemberDetail(false)}>
+          Back to All Members
+        </Button>
+        <h2>{`${memberDetail?.square?.given_name} ${memberDetail?.square?.family_name}`}</h2>
+        <hr />
+        {memberDetail && <Transactions thisUserData={memberDetail} />}
+      </div>
     </Container>
   );
 };

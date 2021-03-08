@@ -85,7 +85,6 @@ const AdminOrders = () => {
     return (
       orders &&
       orders.map((order) => {
-        console.log(order);
         currentKey += 1;
         if (
           (status === "pending" && !completed[order.id]) ||

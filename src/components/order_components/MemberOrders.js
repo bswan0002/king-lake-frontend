@@ -140,6 +140,11 @@ const MemberOrders = (props) => {
       <hr />
       <Form onSubmit={handleSubmit}>
         <Form.Row>
+          <Col>
+            <Form.Label as={"h3"}>For Pickup on:</Form.Label>
+          </Col>
+        </Form.Row>
+        <Form.Row>
           <Col xs={5}>
             <Form.Label as={"h3"}>Wine</Form.Label>
           </Col>

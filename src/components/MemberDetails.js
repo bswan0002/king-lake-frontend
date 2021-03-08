@@ -9,7 +9,7 @@ const MemberDetails = (props) => {
       {props.role === "member" ? (
         <MemberJumbo
           name={props.thisUserData?.square?.given_name}
-          membership={props.thisUserData?.square.membership_level}
+          membership={props.thisUserData?.square?.membership_level}
         />
       ) : null}
       <Container>
