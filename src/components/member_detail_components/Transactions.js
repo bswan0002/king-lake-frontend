@@ -64,7 +64,7 @@ const Transactions = (props) => {
   };
   const renderTransactionCards = () => {
     let currentKey = 0;
-    return props.thisUserData?.transactions.map((transaction) => {
+    return props.thisUserData?.transactions?.map((transaction) => {
       const bottleTotal = transaction.line_items?.reduce((total, line_item) => {
         return total + parseInt(line_item.quantity);
       }, 0);

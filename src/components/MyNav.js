@@ -24,9 +24,9 @@ const MyNav = (props) => {
               <LinkContainer to="/orders">
                 <Nav.Link>Orders</Nav.Link>
               </LinkContainer>
-              {/* <LinkContainer to="/emails">
-                <Nav.Link>Emails</Nav.Link>
-              </LinkContainer> */}
+              <LinkContainer to="/events">
+                <Nav.Link>Events</Nav.Link>
+              </LinkContainer>
             </Fragment>
           ) : null}
           {props.roleCheck("member") ? (
@@ -36,6 +36,9 @@ const MyNav = (props) => {
               </LinkContainer>
               <LinkContainer to="/orders">
                 <Nav.Link>Orders</Nav.Link>
+              </LinkContainer>
+              <LinkContainer to="/events">
+                <Nav.Link>Events</Nav.Link>
               </LinkContainer>
             </Fragment>
           ) : null}

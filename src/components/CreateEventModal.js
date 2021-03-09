@@ -53,7 +53,7 @@ const CreateEventModal = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
-            Close
+            Discard Event
           </Button>
           <Button variant="primary" onClick={handleClose}>
             Save Changes

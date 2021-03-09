@@ -172,9 +172,6 @@ class App extends Component {
             <Switch>
               {this.roleCheck("admin") ? (
                 <Fragment>
-                  <Route exact path="/">
-                    <Events admin={true} />
-                  </Route>
                   <Route path="/members">
                     <AllMembers
                       checkRole={this.checkRoleFromValidated}
@@ -188,6 +185,9 @@ class App extends Component {
                       userData={this.state.userData}
                     />
                   </Route>
+                  <Route exact path="/events">
+                    <Events admin={true} />
+                  </Route>
                   {/* <Route path="/emails">
                     <Emails checkRole={this.checkRoleFromValidated} />
                   </Route> */}
@@ -195,9 +195,6 @@ class App extends Component {
               ) : null}
               {this.roleCheck("member") ? (
                 <Fragment>
-                  <Route exact path="/">
-                    <Events admin={false} />
-                  </Route>
                   <Route path="/membership">
                     <MemberDetails
                       role={"member"}
@@ -214,6 +211,9 @@ class App extends Component {
                         this.state.userData?.square?.membership_level
                       }
                     />
+                  </Route>
+                  <Route path="/events">
+                    <Events admin={false} />
                   </Route>
                 </Fragment>
               ) : null}

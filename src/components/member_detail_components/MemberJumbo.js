@@ -1,5 +1,6 @@
 import React from "react";
 import { Jumbotron } from "react-bootstrap";
+import HandleDate from "../order_components/HandleDate";
 
 const MemberJumbo = (props) => {
   const calculateCommitStatus = (user) => {
@@ -36,7 +37,7 @@ const MemberJumbo = (props) => {
 
       <h3>
         <span className={`${props.membership}`}>{`${props.membership}`}</span>{" "}
-        Member
+        Member since <HandleDate date={props.thisUserData.square.created_at} />
       </h3>
       {props.admin ? (
         <h4>

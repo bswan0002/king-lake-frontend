@@ -87,27 +87,23 @@ const AllMembers = (props) => {
           )}
         </div>
       </Container>
-      <div style={{ display: !memberDetail && "none" }}>
-        {/* <Button className="mb-4" onClick={() => setMemberDetail(false)}>
-          Back to All Members
-        </Button>
-        <h2>{`${memberDetail?.square?.given_name} ${memberDetail?.square?.family_name}`}</h2>
-        <hr /> */}
-        {memberDetail && (
+      {memberDetail && (
+        <Fragment>
           <MemberJumbo
             name={`${memberDetail.square.given_name} ${memberDetail.square.family_name}`}
             membership={memberDetail.square.membership_level}
             thisUserData={memberDetail}
             admin={true}
           />
-        )}
-        <Container>
-          <Button className="mb-4" onClick={() => setMemberDetail(false)}>
-            Back to All Members
-          </Button>
-          {memberDetail && <Transactions thisUserData={memberDetail} />}
-        </Container>
-      </div>
+
+          <Container>
+            <Button className="mb-4" onClick={() => setMemberDetail(false)}>
+              Back to All Members
+            </Button>
+            <Transactions thisUserData={memberDetail} />
+          </Container>
+        </Fragment>
+      )}
     </Fragment>
   );
 };
