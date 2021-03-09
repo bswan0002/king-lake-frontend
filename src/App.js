@@ -14,6 +14,7 @@ import Orders from "./components/Orders";
 import Emails from "./components/Emails";
 import MemberDetails from "./components/MemberDetails";
 import Footer from "./components/Footer";
+import Events from "./components/Events";
 
 class App extends Component {
   state = {
@@ -171,6 +172,9 @@ class App extends Component {
             <Switch>
               {this.roleCheck("admin") ? (
                 <Fragment>
+                  <Route exact path="/">
+                    <Events admin={true} />
+                  </Route>
                   <Route path="/members">
                     <AllMembers
                       checkRole={this.checkRoleFromValidated}
@@ -184,14 +188,17 @@ class App extends Component {
                       userData={this.state.userData}
                     />
                   </Route>
-                  <Route path="/emails">
+                  {/* <Route path="/emails">
                     <Emails checkRole={this.checkRoleFromValidated} />
-                  </Route>
+                  </Route> */}
                 </Fragment>
               ) : null}
               {this.roleCheck("member") ? (
                 <Fragment>
-                  <Route path="/home">
+                  <Route exact path="/">
+                    <Events admin={false} />
+                  </Route>
+                  <Route path="/membership">
                     <MemberDetails
                       role={"member"}
                       thisUser={this.state.user}
@@ -231,8 +238,8 @@ class App extends Component {
                 </Fragment>
               ) : (
                 <Fragment>
-                  <Redirect from="sign-in" to="/" />
-                  <Redirect from="sign-up" to="/" />
+                  <Redirect from="/sign-in" to="/" />
+                  <Redirect from="/sign-up" to="/" />
                 </Fragment>
               )}
             </Switch>

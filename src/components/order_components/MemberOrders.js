@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusSquare } from "@fortawesome/free-regular-svg-icons";
@@ -15,6 +15,8 @@ const MemberOrders = (props) => {
   const [startDate, setStartDate] = useState(new Date());
 
   const [fetchAgain, setFetchAgain] = useState(1);
+
+  const [isCreatingOrder, setIsCreatingOrder] = useState(false);
 
   const wineOptions = () => {
     return props.wines.map((wine) => (
@@ -136,7 +138,8 @@ const MemberOrders = (props) => {
         0: { wine: props.wines[0]?.name, quantity: 1 },
       }),
       setStartDate(new Date()),
-      setFetchAgain(fetchAgain + 1)
+      setFetchAgain(fetchAgain + 1),
+      setIsCreatingOrder(false)
     );
   };
 
@@ -173,45 +176,53 @@ const MemberOrders = (props) => {
 
   return (
     <div>
-      <h2>New Order for Pickup</h2>
-      <hr />
-      <Form onSubmit={handleSubmit}>
-        <Form.Row>
-          <h4>
-            For Pickup on:{" "}
-            <DatePicker
-              selected={startDate}
-              onChange={(date) => setStartDate(date)}
-            />
-          </h4>
-        </Form.Row>
-        <Form.Row>
-          <Col xs={5}>
-            <Form.Label as={"h3"}>Wine</Form.Label>
-          </Col>
-          <Col xs={3}>
-            <Form.Label as={"h3"}>Price per Bottle</Form.Label>
-          </Col>
-          <Col xs={3}>
-            <Form.Label as={"h3"}>Quantity</Form.Label>
-          </Col>
-        </Form.Row>
-        {createInputs()}
-        <Form.Row className="mt-2">
-          <Col xs={5}>
-            <Button type="submit">Submit</Button>
-          </Col>
-          <Col xs={6} className="d-flex justify-content-end">
-            <Button onClick={addInput}>Add Wine</Button>
-          </Col>
-          <Col xs={1} />
-        </Form.Row>
-        <Form.Row className="mt-2">
-          Current Total: {currencyFormat(getTotal())} - {props.membershipLevel}{" "}
-          Discount [{currencyFormat(discountTotal())}] ={" "}
-          {currencyFormat(total())} (before applicable taxes)
-        </Form.Row>
-      </Form>
+      {isCreatingOrder ? (
+        <Fragment>
+          <h2>New Order for Pickup</h2>
+          <hr />
+          <Form onSubmit={handleSubmit}>
+            <Form.Row>
+              <h4>
+                For Pickup on:{" "}
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                />
+              </h4>
+            </Form.Row>
+            <Form.Row>
+              <Col xs={5}>
+                <Form.Label as={"h3"}>Wine</Form.Label>
+              </Col>
+              <Col xs={3}>
+                <Form.Label as={"h3"}>Price per Bottle</Form.Label>
+              </Col>
+              <Col xs={3}>
+                <Form.Label as={"h3"}>Quantity</Form.Label>
+              </Col>
+            </Form.Row>
+            {createInputs()}
+            <Form.Row className="mt-2">
+              <Col xs={5}>
+                <Button type="submit">Submit</Button>
+              </Col>
+              <Col xs={6} className="d-flex justify-content-end">
+                <Button onClick={addInput}>Add Wine</Button>
+              </Col>
+              <Col xs={1} />
+            </Form.Row>
+            <Form.Row className="mt-2">
+              Current Total: {currencyFormat(getTotal())} -{" "}
+              {props.membershipLevel} Discount [
+              {currencyFormat(discountTotal())}] = {currencyFormat(total())}{" "}
+              (before applicable taxes)
+            </Form.Row>
+          </Form>
+        </Fragment>
+      ) : (
+        <Button onClick={() => setIsCreatingOrder(true)}>New Order</Button>
+      )}
+
       <hr />
       <MemberOrderList
         fetchUserByToken={props.fetchUserByToken}
