@@ -30,7 +30,7 @@ const MemberJumbo = (props) => {
   return (
     <Jumbotron className="member-jumbo">
       {props.admin ? (
-        <h2>{`${props.name}`}</h2>
+        <h2 className="jumbo-name">{`${props.name}`}</h2>
       ) : (
         <h2>Welcome back, {`${props.name}`}</h2>
       )}

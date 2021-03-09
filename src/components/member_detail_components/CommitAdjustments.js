@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, Fragment } from "react";
 import {
   Accordion,
   Card,
@@ -6,6 +6,8 @@ import {
   Col,
   useAccordionToggle,
   AccordionContext,
+  Form,
+  Button,
 } from "react-bootstrap";
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -48,6 +50,15 @@ function ContextAwareToggle({ eventKey, callback, date }) {
 }
 
 const CommitAdjustments = (props) => {
+  const [creatingCommitAdjustment, setCreatingCommitAdjustment] = useState(
+    false
+  );
+
+  const [formInputs, setFormInputs] = useState({
+    "credit": 0,
+    "note": "",
+  });
+
   const renderCommitAdjustmentCards = () => {
     let currentKey = 0;
     return (
@@ -71,15 +82,107 @@ const CommitAdjustments = (props) => {
     );
   };
 
+  const handleChange = (e) => {
+    setFormInputs({
+      ...formInputs,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const resetForm = () => {
+    setFormInputs({
+      "credit": 0,
+      "note": "",
+    });
+    setCreatingCommitAdjustment(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetch("http://localhost:3000/api/v1/commit-adjustments", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formInputs,
+        "adjustment": parseInt(formInputs.credit),
+        "user_id": props.member_id,
+      }),
+    }).then(resetForm());
+  };
+
+  const commitAdjustmentForm = () => {
+    return (
+      <Fragment>
+        <h2>New Commit Adjustment</h2>
+        <hr />
+        <Form onSubmit={handleSubmit}>
+          <Form.Row>
+            <Col xs={1}>
+              <Form.Label className="mt-1">Credit:</Form.Label>
+            </Col>
+            <Col xs={3}>
+              <Form.Control
+                value={formInputs.credit}
+                name="credit"
+                onChange={handleChange}
+              ></Form.Control>
+            </Col>
+          </Form.Row>
+          <Form.Row className="mt-2">
+            <Col xs={1}>
+              <Form.Label className="mt-1">Note:</Form.Label>
+            </Col>
+            <Col xs="11">
+              <Form.Control
+                as="textarea"
+                value={formInputs.note}
+                name="note"
+                onChange={handleChange}
+              ></Form.Control>
+            </Col>
+          </Form.Row>
+          <Form.Row className="mt-1">
+            <Col xs="1" />
+            <Col className="d-flex justify-content-between">
+              <Button type="submit">Submit</Button>
+              <Button className="btn btn-secondary" onClick={resetForm}>
+                Discard
+              </Button>
+            </Col>
+          </Form.Row>
+        </Form>
+        <hr />
+      </Fragment>
+    );
+  };
+
   return (
     <div>
-      <h2 className="mt-3">Commit Adjustments</h2>
+      {creatingCommitAdjustment && commitAdjustmentForm()}
+      <Row>
+        <Col className="d-flex justify-content-between">
+          <h2 className="mt-3">Commit Adjustments</h2>
+          {!creatingCommitAdjustment && (
+            <Button
+              className="mt-2"
+              onClick={() => setCreatingCommitAdjustment(true)}
+            >
+              Create Commit Adjustment
+            </Button>
+          )}
+        </Col>
+      </Row>
+
       {props.commitAdjustments ? (
-        <CustomScrollDiv>
-          <Accordion className="order-accordion-list">
-            {renderCommitAdjustmentCards()}
-          </Accordion>
-        </CustomScrollDiv>
+        <div className="mt-4">
+          <CustomScrollDiv>
+            <Accordion className="order-accordion-list">
+              {renderCommitAdjustmentCards()}
+            </Accordion>
+          </CustomScrollDiv>
+        </div>
       ) : (
         <h3 className="mt-3">Retrieving Commit Adjustments...</h3>
       )}

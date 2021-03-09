@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Modal, Form, Col } from "react-bootstrap";
+import { Button, Modal, Form, Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,6 +10,11 @@ const CreateEventModal = () => {
   const handleShow = () => setShow(true);
 
   const [startDate, setStartDate] = useState(new Date());
+
+  const [formInputs, setFormInputs] = useState({
+    "title": "",
+    "description": "",
+  });
 
   return (
     <div className="mt-4">
@@ -51,12 +56,12 @@ const CreateEventModal = () => {
             </Form.Row>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Discard Event
-          </Button>
+        <Modal.Footer className="d-flex justify-content-between">
           <Button variant="primary" onClick={handleClose}>
             Save Changes
+          </Button>
+          <Button variant="secondary" onClick={handleClose}>
+            Discard Event
           </Button>
         </Modal.Footer>
       </Modal>

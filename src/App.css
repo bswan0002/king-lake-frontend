@@ -99,6 +99,23 @@ footer {
   background-color: #403e41;
 }
 
+h2 {
+  color: #4c79cc;
+}
+
+.jumbo-name {
+  font-family: "Cormorant", serif;
+  color: rgb(71, 71, 71);
+}
+
+.btn.btn-primary {
+  background-color: #4c79cc !important;
+}
+
+.btn.btn-secondary {
+  background-color: purple !important;
+}
+
 .foot-title {
   color: #6e8bbf;
 }

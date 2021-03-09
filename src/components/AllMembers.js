@@ -30,6 +30,7 @@ const AllMembers = (props) => {
   };
 
   const createRowData = () => {
+    console.log(props.allUsers);
     const rows = props.allUsers.map((user) => {
       return {
         name: `${user.square.given_name} ${user.square.family_name}`,
@@ -105,6 +106,7 @@ const AllMembers = (props) => {
             <hr />
             <CommitAdjustments
               commitAdjustments={memberDetail.db.commit_adjustments}
+              member_id={memberDetail.db.id}
             />
           </Container>
         </Fragment>
