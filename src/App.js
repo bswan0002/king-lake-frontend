@@ -15,6 +15,7 @@ import Emails from "./components/Emails";
 import MemberDetails from "./components/MemberDetails";
 import Footer from "./components/Footer";
 import Events from "./components/Events";
+import Landing from "./Landing";
 
 class App extends Component {
   state = {
@@ -172,10 +173,14 @@ class App extends Component {
             <Switch>
               {this.roleCheck("admin") ? (
                 <Fragment>
+                  <Route exact path="/">
+                    <Landing />
+                  </Route>
                   <Route path="/members">
                     <AllMembers
                       checkRole={this.checkRoleFromValidated}
                       allUsers={this.state.userData}
+                      fetchUserByToken={this.fetchUserByToken}
                     />
                   </Route>
                   <Route path="/orders">
@@ -185,7 +190,7 @@ class App extends Component {
                       userData={this.state.userData}
                     />
                   </Route>
-                  <Route exact path="/events">
+                  <Route path="/events">
                     <Events admin={true} />
                   </Route>
                   {/* <Route path="/emails">
@@ -195,6 +200,9 @@ class App extends Component {
               ) : null}
               {this.roleCheck("member") ? (
                 <Fragment>
+                  <Route exact path="/">
+                    <Landing />
+                  </Route>
                   <Route path="/membership">
                     <MemberDetails
                       role={"member"}
@@ -219,6 +227,9 @@ class App extends Component {
               ) : null}
               {!this.state.user ? (
                 <Fragment>
+                  <Route exact path="/">
+                    <Landing />
+                  </Route>
                   <Route path="/sign-in">
                     <SignInOrSignUp
                       formType="Sign In"

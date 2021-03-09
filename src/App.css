@@ -1,5 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@1,700&display=swap");
+
 body {
   font-family: "PT Sans", sans-serif !important;
+}
+
+.landing-div {
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center; */
+}
+
+.landing-header {
+  font-family: "Cormorant", serif;
+  color: rgb(56, 56, 56);
+  position: fixed;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .body {

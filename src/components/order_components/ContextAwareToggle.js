@@ -32,14 +32,14 @@ function ContextAwareToggle({ eventKey, callback, member, date, pickup_date }) {
       onClick={decoratedOnClick}
     >
       <Row>
-        <Col>{`${member} Ordered on:`}</Col>
-        <Col>
+        <Col xs={3}>{`${member} Ordered on:`}</Col>
+        <Col xs={3}>
           <HandleDate date={date} />
         </Col>
-        <Col>
+        <Col xs={3}>
           For pickup on: {pickup_date && <HandleDate date={pickup_date} />}
         </Col>
-        <Col xs={1} style={{ textAlign: "right" }}>
+        <Col xs={3} style={{ textAlign: "right" }}>
           <FontAwesomeIcon icon={isCurrentEventKey ? faSortUp : faSortDown} />
         </Col>
       </Row>

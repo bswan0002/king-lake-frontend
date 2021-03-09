@@ -3,6 +3,7 @@ import { MDBDataTableV5 } from "mdbreact";
 import { Container, Button } from "react-bootstrap";
 import Transactions from "./member_detail_components/Transactions";
 import MemberJumbo from "./member_detail_components/MemberJumbo";
+import CommitAdjustments from "./member_detail_components/CommitAdjustments";
 
 const AllMembers = (props) => {
   useEffect(() => {
@@ -101,6 +102,10 @@ const AllMembers = (props) => {
               Back to All Members
             </Button>
             <Transactions thisUserData={memberDetail} />
+            <hr />
+            <CommitAdjustments
+              commitAdjustments={memberDetail.db.commit_adjustments}
+            />
           </Container>
         </Fragment>
       )}

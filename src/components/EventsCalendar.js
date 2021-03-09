@@ -16,6 +16,7 @@ const EventsCalendar = (props) => (
       popup={true}
       views={["month"]}
       style={{ height: "750px" }}
+      onSelectEvent={(e) => console.log(e)}
     />
   </div>
 );
