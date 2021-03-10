@@ -106,8 +106,10 @@ class App extends Component {
           });
           sessionStorage.setItem("token", user.jwt);
           this.roleCheck("admin", user.user) && this.fetchAllCustomers();
-          this.roleCheck("member", user.user) &&
+          if (this.roleCheck("member", user.user)) {
             this.fetchThisMember(user.user.square_id);
+          }
+
           this.fetchWines();
         }
       });
