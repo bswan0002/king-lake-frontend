@@ -24,6 +24,24 @@ class App extends Component {
     wines: JSON.parse(localStorage.getItem("wines")) || null,
   };
 
+  removeCommitAdjustment = (id) => {
+    console.log("hit method");
+    this.state.userData.forEach((user, index) => {
+      console.log("im in yr loop");
+      if (user.db.commit_adjustments.find((adj) => adj.id === parseInt(id))) {
+        console.log("im in yr if");
+        let newCommitAdjustments = user.db.commit_adjustments.filter(
+          (adj) => adj.id !== parseInt(id)
+        );
+        let newUserData = [...this.state.userData];
+        newUserData[index].db.commit_adjustments = newCommitAdjustments;
+        this.setState({
+          userData: newUserData,
+        });
+      }
+    });
+  };
+
   componentDidMount() {
     if (sessionStorage.token) {
       this.setUserFromValidated();
@@ -183,6 +201,7 @@ class App extends Component {
                       checkRole={this.checkRoleFromValidated}
                       allUsers={this.state.userData}
                       fetchUserByToken={this.fetchUserByToken}
+                      removeCommitAdjustment={this.removeCommitAdjustment}
                     />
                   </Route>
                   <Route path="/orders">

@@ -62,6 +62,22 @@ const CommitAdjustments = (props) => {
     "note": "",
   });
 
+  const handleDelete = (e) => {
+    console.log(e.target.id);
+    fetch(`http://localhost:3000/api/v1/commit-adjustments/${e.target.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .then(() => {
+        props.removeCommitAdjustment(e.target.id);
+      });
+  };
+
   const renderCommitAdjustmentCards = () => {
     let currentKey = 0;
     return (
@@ -69,7 +85,7 @@ const CommitAdjustments = (props) => {
       props.commitAdjustments.map((commitAdjustment) => {
         currentKey += 1;
         return (
-          <Card>
+          <Card key={`adjCard${commitAdjustment.id}`}>
             <ContextAwareToggle
               eventKey={`${currentKey}`}
               date={commitAdjustment.created_at}
@@ -77,7 +93,20 @@ const CommitAdjustments = (props) => {
             />
             <Accordion.Collapse eventKey={`${currentKey}`}>
               <Card.Body>
-                <p>{commitAdjustment.note}</p>
+                <Row>
+                  <Col xs={9}>
+                    <p>{commitAdjustment.note}</p>
+                  </Col>
+                  <Col>
+                    <Button
+                      className="btn btn-secondary"
+                      id={commitAdjustment.id}
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </Button>
+                  </Col>
+                </Row>
               </Card.Body>
             </Accordion.Collapse>
           </Card>
