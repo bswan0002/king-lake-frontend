@@ -22,7 +22,9 @@ const MemberJumbo = (props) => {
     }, 0);
   };
 
-  useEffect(fetchAdjustments, []);
+  useEffect(() => {
+    fetchAdjustments();
+  }, [props.thisUserData.db.commit_adjustments]);
 
   const calculateCommitStatus = (user) => {
     console.log(adjustTotal());

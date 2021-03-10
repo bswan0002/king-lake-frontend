@@ -25,7 +25,7 @@ class App extends Component {
   };
 
   removeCommitAdjustment = (id) => {
-    console.log("hit method");
+    console.log("im in yr method");
     this.state.userData.forEach((user, index) => {
       console.log("im in yr loop");
       if (user.db.commit_adjustments.find((adj) => adj.id === parseInt(id))) {
@@ -33,6 +33,21 @@ class App extends Component {
         let newCommitAdjustments = user.db.commit_adjustments.filter(
           (adj) => adj.id !== parseInt(id)
         );
+        let newUserData = [...this.state.userData];
+        newUserData[index].db.commit_adjustments = newCommitAdjustments;
+        this.setState({
+          userData: newUserData,
+        });
+      }
+    });
+  };
+
+  addCommitAdjustment = (newCommit) => {
+    console.log(newCommit);
+    this.state.userData.forEach((user, index) => {
+      if (user.db.id === newCommit.user_id) {
+        let newCommitAdjustments = [...user.db.commit_adjustments];
+        newCommitAdjustments.push(newCommit);
         let newUserData = [...this.state.userData];
         newUserData[index].db.commit_adjustments = newCommitAdjustments;
         this.setState({
@@ -202,6 +217,7 @@ class App extends Component {
                       allUsers={this.state.userData}
                       fetchUserByToken={this.fetchUserByToken}
                       removeCommitAdjustment={this.removeCommitAdjustment}
+                      addCommitAdjustment={this.addCommitAdjustment}
                     />
                   </Route>
                   <Route path="/orders">
@@ -246,34 +262,35 @@ class App extends Component {
                   </Route>
                 </Fragment>
               ) : null}
-              {!this.state.user ? (
-                <Fragment>
-                  <Route exact path="/">
-                    <Landing />
-                  </Route>
-                  <Route path="/sign-in">
+              <Fragment>
+                <Route exact path="/">
+                  <Landing />
+                </Route>
+                <Route path="/sign-in">
+                  {!this.state.user ? (
                     <SignInOrSignUp
                       formType="Sign In"
                       handleSubmit={this.signIn}
                     />
-                  </Route>
-                  <Route path="/sign-up">
+                  ) : (
+                    <Redirect to="/" />
+                  )}
+                </Route>
+                <Route path="/sign-up">
+                  {!this.state.user ? (
                     <SignInOrSignUp
                       formType="Sign Up"
                       handleSubmit={this.signUp}
                     />
-                  </Route>
-                  <Redirect from="/members" to="/" />
-                  <Redirect from="/orders" to="/" />
-                  <Redirect from="/emails" to="/" />
-                  <Redirect from="/sign-out" to="/" />
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <Redirect from="/sign-in" to="/" />
-                  <Redirect from="/sign-up" to="/" />
-                </Fragment>
-              )}
+                  ) : (
+                    <Redirect to="/" />
+                  )}
+                </Route>
+                <Redirect from="/members" to="/" />
+                <Redirect from="/orders" to="/" />
+                <Redirect from="/emails" to="/" />
+                <Redirect from="/sign-out" to="/" />
+              </Fragment>
             </Switch>
           </Router>
         </div>

@@ -127,6 +127,7 @@ const AllMembers = (props) => {
               commitAdjustments={memberDetail.db.commit_adjustments}
               member_id={memberDetail.db.id}
               removeCommitAdjustment={props.removeCommitAdjustment}
+              addCommitAdjustment={props.addCommitAdjustment}
             />
           </Container>
         </Fragment>

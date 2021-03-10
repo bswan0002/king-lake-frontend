@@ -1,10 +1,18 @@
 import React from "react";
 import { Form, Button, Container } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 
-const signInOrSignUp = ({ formType, handleSubmit }) => {
+const SignInOrSignUp = ({ formType, handleSubmit }) => {
+  let history = useHistory();
   return (
     <Container className="mt-4">
-      <Form onSubmit={handleSubmit} style={{ padding: "5px" }}>
+      <Form
+        onSubmit={(e) => {
+          handleSubmit(e);
+          history.push("/");
+        }}
+        style={{ padding: "5px" }}
+      >
         <h2>{formType}</h2>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
@@ -33,4 +41,4 @@ const signInOrSignUp = ({ formType, handleSubmit }) => {
     </Container>
   );
 };
-export default signInOrSignUp;
+export default SignInOrSignUp;

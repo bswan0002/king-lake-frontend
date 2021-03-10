@@ -142,7 +142,10 @@ const CommitAdjustments = (props) => {
         "adjustment": parseInt(formInputs.credit),
         "user_id": props.member_id,
       }),
-    }).then(resetForm());
+    })
+      .then((res) => res.json())
+      .then((commitData) => props.addCommitAdjustment(commitData))
+      .then(resetForm());
   };
 
   const commitAdjustmentForm = () => {

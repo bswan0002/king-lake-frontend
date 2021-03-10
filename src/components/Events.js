@@ -46,7 +46,7 @@ const Events = (props) => {
       <Row>
         <Col className="d-flex justify-content-between">
           <h2 className="mt-4">Events</h2>
-          {props.admin && <CreateEventModal />}
+          {props.admin && <CreateEventModal fetchEvents={fetchEvents} />}
         </Col>
       </Row>
       <EventsCalendar myEventsList={eventsToCalEvents()} />

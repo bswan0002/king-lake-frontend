@@ -3,7 +3,7 @@ import { Button, Modal, Form, Col, Row } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const CreateEventModal = () => {
+const CreateEventModal = (props) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => {
@@ -47,7 +47,9 @@ const CreateEventModal = () => {
         ...formInputs,
         date: startDate,
       }),
-    }).then(handleClose());
+    })
+      .then(handleClose())
+      .then(props.fetchEvents());
   };
 
   return (

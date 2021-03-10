@@ -178,7 +178,7 @@ const AdminOrders = (props) => {
       )}
 
       <hr />
-      <h2>Completed Orders</h2>
+      <h2 className="mb-3">Completed Orders</h2>
       {orders ? (
         <CustomScrollDiv>
           <Accordion style={{ maxHeight: "400px" }}>
