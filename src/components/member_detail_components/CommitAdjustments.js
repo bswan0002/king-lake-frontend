@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import HandleDate from "../order_components/HandleDate";
 
-function ContextAwareToggle({ eventKey, callback, date }) {
+function ContextAwareToggle({ eventKey, callback, date, amount }) {
   const currentEventKey = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionToggle(
@@ -40,7 +40,10 @@ function ContextAwareToggle({ eventKey, callback, date }) {
         <Col>
           <HandleDate date={date} />
         </Col>
-        <Col>For Credit/Debit of x</Col>
+        <Col>
+          For {amount > 0 ? `Credit of ${amount}` : `Debit of ${amount}`}{" "}
+          bottles
+        </Col>
         <Col xs={1} style={{ textAlign: "right" }}>
           <FontAwesomeIcon icon={isCurrentEventKey ? faSortUp : faSortDown} />
         </Col>
@@ -70,6 +73,7 @@ const CommitAdjustments = (props) => {
             <ContextAwareToggle
               eventKey={`${currentKey}`}
               date={commitAdjustment.created_at}
+              amount={commitAdjustment.adjustment}
             />
             <Accordion.Collapse eventKey={`${currentKey}`}>
               <Card.Body>

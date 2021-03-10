@@ -19,6 +19,12 @@ const AllMembers = (props) => {
     setMemberDetail(selectedUser);
   };
 
+  const adjustTotal = (adjustments) => {
+    return adjustments.reduce((total, adjustment) => {
+      return total + parseInt(adjustment.adjustment);
+    }, 0);
+  };
+
   const calculateCommitStatus = (user) => {
     let bottlesPurchased = 0;
     user.transactions?.forEach((transaction) => {
@@ -26,7 +32,11 @@ const AllMembers = (props) => {
         bottlesPurchased += parseInt(line_item.quantity);
       });
     });
-    return bottlesPurchased - user.db.commit_count;
+    return (
+      bottlesPurchased -
+      user.db.commit_count +
+      adjustTotal(user.db.commit_adjustments)
+    );
   };
 
   const createRowData = () => {

@@ -25,10 +25,11 @@ const MemberOrders = (props) => {
   };
 
   const getPriceBy = (wineName) => {
-    const price = props.wines
-      .find((wine) => wine.name === wineName)
-      .price?.toFixed(2);
-    return price && `$${price.slice(0, 2) + price.slice(4)}`;
+    const thisWine = props.wines.find((wine) => wine.name === wineName);
+    if (thisWine) {
+      const price = thisWine.price.toFixed(2);
+      return price && `$${price.slice(0, 2) + price.slice(4)}`;
+    }
   };
 
   const createInputs = () => {
@@ -90,7 +91,7 @@ const MemberOrders = (props) => {
     let formInputsCopy = { ...formInputs };
     delete formInputsCopy[e.target.id];
     let newFormInputs = {};
-    for (let index = 0; index < Object.keys(formInputsCopy).length; index++) {
+    for (let index = 0; index < Object.keys(formInputs).length - 1; index++) {
       if (index < e.target.id) {
         newFormInputs[index] = formInputsCopy[index];
       } else {
@@ -147,9 +148,9 @@ const MemberOrders = (props) => {
     let total = 0;
     Object.keys(formInputs).forEach((index) => {
       let currentWine = props.wines.find(
-        (wine) => wine.name === formInputs[index].wine
+        (wine) => wine.name === formInputs[index]?.wine
       );
-      total += currentWine.price * formInputs[index].quantity;
+      total += currentWine?.price * formInputs[index]?.quantity;
     });
     return total;
   };
