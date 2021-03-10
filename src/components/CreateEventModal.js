@@ -6,7 +6,19 @@ import "react-datepicker/dist/react-datepicker.css";
 const CreateEventModal = () => {
   const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    resetFormInputs();
+  };
+
+  const resetFormInputs = () => {
+    setFormInputs({
+      "title": "",
+      "description": "",
+    });
+    setStartDate(new Date());
+  };
+
   const handleShow = () => setShow(true);
 
   const [startDate, setStartDate] = useState(new Date());
@@ -15,6 +27,28 @@ const CreateEventModal = () => {
     "title": "",
     "description": "",
   });
+
+  const handleChange = (e) => {
+    setFormInputs({
+      ...formInputs,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("submitting");
+    fetch("http://localhost:3000/api/v1/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formInputs,
+        date: startDate,
+      }),
+    }).then(handleClose());
+  };
 
   return (
     <div className="mt-4">
@@ -26,8 +60,8 @@ const CreateEventModal = () => {
         <Modal.Header closeButton>
           <Modal.Title>New Event</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <Form>
+        <Form onSubmit={handleSubmit}>
+          <Modal.Body>
             <Form.Row>
               <Col>
                 <Form.Label>Event Title</Form.Label>
@@ -38,32 +72,47 @@ const CreateEventModal = () => {
             </Form.Row>
             <Form.Row>
               <Col>
-                <Form.Control className="h-229"></Form.Control>
+                <Form.Control
+                  className="h-38"
+                  name="title"
+                  value={formInputs.title}
+                  onChange={handleChange}
+                ></Form.Control>
               </Col>
               <Col>
                 <DatePicker
-                  className="h-229"
+                  className="h-38"
                   selected={startDate}
                   onChange={(date) => setStartDate(date)}
                 />
               </Col>
             </Form.Row>
             <Form.Row className="mt-2">
-              <Form.Label>Event Description</Form.Label>
+              <Col>
+                <Form.Label>Event Description</Form.Label>
+              </Col>
             </Form.Row>
             <Form.Row>
-              <Form.Control as="textarea" rows={3}></Form.Control>
+              <Col>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="description"
+                  value={formInputs.description}
+                  onChange={handleChange}
+                ></Form.Control>
+              </Col>
             </Form.Row>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer className="d-flex justify-content-between">
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-          <Button variant="secondary" onClick={handleClose}>
-            Discard Event
-          </Button>
-        </Modal.Footer>
+          </Modal.Body>
+          <Modal.Footer className="d-flex justify-content-between">
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+            <Button variant="secondary" onClick={handleClose}>
+              Discard Event
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </div>
   );

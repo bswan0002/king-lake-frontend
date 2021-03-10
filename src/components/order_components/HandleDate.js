@@ -15,10 +15,14 @@ const HandleDate = ({ date }) => {
     "11": "November",
     "12": "December",
   };
-  return `${months[date.slice(5, 7)]} ${date.slice(8, 10)}, ${date.slice(
-    0,
-    4
-  )}`;
+  return (
+    (date &&
+      `${months[date.slice(5, 7)]} ${date.slice(8, 10)}, ${date.slice(
+        0,
+        4
+      )}`) ||
+    null
+  );
 };
 
 export default HandleDate;

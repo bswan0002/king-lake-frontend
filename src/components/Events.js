@@ -1,18 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import EventsCalendar from "./EventsCalendar";
 import CreateEventModal from "./CreateEventModal";
 
 const Events = (props) => {
-  const myEventsList = [
-    {
-      title: `Event Title`,
-      start: new Date(),
-      end: new Date(),
-      allDay: false,
-      resource: null,
-    },
-  ];
+  const [events, setEvents] = useState([]);
+
+  // Calendar adds things one day too early
+  const addDay = (date) => {
+    const correctDayNum = parseInt(date.split("-")[2]) + 1;
+    const correctDay = ("0" + correctDayNum).slice(-2);
+    return `${date.split("-")[0]}-${date.split("-")[1]}-${correctDay}`;
+  };
+
+  const fetchEvents = () => {
+    fetch("http://localhost:3000/api/v1/events", {
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((eventsData) => {
+        setEvents(eventsData);
+      });
+  };
+
+  useEffect(fetchEvents, []);
+
+  const eventsToCalEvents = () => {
+    if (events.length > 0) {
+      return events.map((event) => {
+        return {
+          title: event.title,
+          start: addDay(event.date),
+          end: addDay(event.date),
+          allDay: false,
+          resource: event.id,
+        };
+      });
+    } else {
+      return [{}];
+    }
+  };
+
   return (
     <Container>
       <Row>
@@ -21,7 +49,7 @@ const Events = (props) => {
           {props.admin && <CreateEventModal />}
         </Col>
       </Row>
-      <EventsCalendar myEventsList={myEventsList} />
+      <EventsCalendar myEventsList={eventsToCalEvents()} />
     </Container>
   );
 };

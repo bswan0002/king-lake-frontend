@@ -5,25 +5,27 @@ import HandleDate from "../order_components/HandleDate";
 const MemberJumbo = (props) => {
   const calculateCommitStatus = (user) => {
     let bottlesPurchased = 0;
-    user.transactions?.forEach((transaction) => {
-      transaction.line_items?.forEach((line_item) => {
-        bottlesPurchased += parseInt(line_item.quantity);
+    if (user) {
+      user.transactions?.forEach((transaction) => {
+        transaction.line_items?.forEach((line_item) => {
+          bottlesPurchased += parseInt(line_item.quantity);
+        });
       });
-    });
-    if (bottlesPurchased - user.db.commit_count > 1) {
-      return `${bottlesPurchased - user.db.commit_count} bottles ahead `;
-    } else if (bottlesPurchased - user.db.commit_count === 1) {
-      return `${bottlesPurchased - user.db.commit_count} bottle ahead `;
-    } else if (bottlesPurchased - user.db.commit_count === -1) {
-      return `${Math.abs(
-        bottlesPurchased - user.db.commit_count
-      )} bottle behind `;
-    } else if (bottlesPurchased - user.db.commit_count < -1) {
-      return `${Math.abs(
-        bottlesPurchased - user.db.commit_count
-      )} bottles behind `;
-    } else {
-      return `exactly caught up `;
+      if (bottlesPurchased - user.db?.commit_count > 1) {
+        return `${bottlesPurchased - user.db?.commit_count} bottles ahead `;
+      } else if (bottlesPurchased - user.db?.commit_count === 1) {
+        return `${bottlesPurchased - user.db?.commit_count} bottle ahead `;
+      } else if (bottlesPurchased - user.db?.commit_count === -1) {
+        return `${Math.abs(
+          bottlesPurchased - user.db?.commit_count
+        )} bottle behind `;
+      } else if (bottlesPurchased - user.db?.commit_count < -1) {
+        return `${Math.abs(
+          bottlesPurchased - user.db?.commit_count
+        )} bottles behind `;
+      } else {
+        return `exactly caught up `;
+      }
     }
   };
 
@@ -37,7 +39,8 @@ const MemberJumbo = (props) => {
 
       <h3>
         <span className={`${props.membership}`}>{`${props.membership}`}</span>{" "}
-        Member since <HandleDate date={props.thisUserData.square.created_at} />
+        Member since{" "}
+        <HandleDate date={props.thisUserData?.square?.created_at} />
       </h3>
       {props.admin ? (
         <h4>
@@ -50,7 +53,8 @@ const MemberJumbo = (props) => {
         </h4>
       ) : (
         <h4>
-          You are {calculateCommitStatus(props.thisUserData)}
+          You are{" "}
+          {props?.thisUserData && calculateCommitStatus(props.thisUserData)}
           on your{" "}
           {props.membership === "Platinum"
             ? "2 bottle/month"

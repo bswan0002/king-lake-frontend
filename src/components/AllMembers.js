@@ -30,16 +30,25 @@ const AllMembers = (props) => {
   };
 
   const createRowData = () => {
-    console.log(props.allUsers);
-    const rows = props.allUsers.map((user) => {
-      return {
-        name: `${user.square.given_name} ${user.square.family_name}`,
-        email: user.square.email,
-        membership: user.square.membership_level,
-        commit: calculateCommitStatus(user),
-        clickEvent: handleRowClick,
+    let rows;
+    if (Array.isArray(props.allUsers)) {
+      rows = props.allUsers.map((user) => {
+        return {
+          name: `${user.square.given_name} ${user.square.family_name}`,
+          email: user.square.email,
+          membership: user.square.membership_level,
+          commit: calculateCommitStatus(user),
+          clickEvent: handleRowClick,
+        };
+      });
+    } else {
+      rows = {
+        name: "Retrieving Data",
+        email: "Retrieving Data",
+        membership: "Retrieving Data",
+        commit: "Retrieving Data",
       };
-    });
+    }
     return {
       columns: [
         {

@@ -24,7 +24,7 @@ body {
 }
 
 .body {
-  flex: 1 0 auto; /* 2 */
+  flex: 1 0 auto;
 }
 
 .bg-dark-gray {
@@ -120,7 +120,17 @@ h2 {
   color: #6e8bbf;
 }
 
-.h-229 {
+.h-38 {
   height: 38px !important;
   border: 1px solid #ced4da;
+  color: #495057;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+}
+
+.h-38:focus {
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 }
