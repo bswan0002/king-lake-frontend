@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Accordion, Card, Row, Col, ListGroup, Form } from "react-bootstrap";
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
+import Legend from "./Legend";
 
 const MemberOrderList = (props) => {
   const [orders, setOrders] = useState(false);
@@ -59,11 +60,16 @@ const MemberOrderList = (props) => {
                 member=""
                 date={order.created_at}
                 pickup_date={order.pickup_date}
+                prepared={order.prepared}
+                paid_for={order.paid_for}
+                picked_up={order.picked_up}
               />
               <Accordion.Collapse eventKey={`${currentKey}`}>
                 <Card.Body>
                   <Row>
-                    <Col>Wine</Col>
+                    <Col>
+                      <h6>Wine</h6>
+                    </Col>
                     <Col>Status</Col>
                   </Row>
                   <Row>
@@ -110,7 +116,12 @@ const MemberOrderList = (props) => {
 
   return (
     <div>
-      <h2 className="mb-3">Pending Orders</h2>
+      <div className="d-flex justify-content-between mb-3">
+        <h2>Pending Orders</h2>
+        <div className="mt-2">
+          <Legend />
+        </div>
+      </div>
       {orders ? (
         <CustomScrollDiv>
           <Accordion className="order-accordion-list">

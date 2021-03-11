@@ -8,9 +8,19 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import HandleDate from "./HandleDate";
 
-function ContextAwareToggle({ eventKey, callback, member, date, pickup_date }) {
+function ContextAwareToggle({
+  eventKey,
+  callback,
+  member,
+  date,
+  pickup_date,
+  prepared,
+  paid_for,
+  picked_up,
+}) {
   const currentEventKey = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionToggle(
@@ -20,6 +30,13 @@ function ContextAwareToggle({ eventKey, callback, member, date, pickup_date }) {
 
   const isCurrentEventKey = currentEventKey === eventKey;
 
+  const statusIcon = (classArg) => {
+    return (
+      <div className="mx-1">
+        <FontAwesomeIcon icon={faCircle} className={classArg} />
+      </div>
+    );
+  };
   return (
     <Card.Header
       style={{
@@ -39,7 +56,12 @@ function ContextAwareToggle({ eventKey, callback, member, date, pickup_date }) {
         <Col xs={3}>
           For pickup on: {pickup_date && <HandleDate date={pickup_date} />}
         </Col>
-        <Col xs={3} style={{ textAlign: "right" }}>
+        <Col xs={2} className="d-flex mt-2">
+          {prepared && statusIcon("prepared")}
+          {paid_for && statusIcon("paid_for")}
+          {picked_up && statusIcon("picked_up")}
+        </Col>
+        <Col xs={1} style={{ textAlign: "right" }}>
           <FontAwesomeIcon icon={isCurrentEventKey ? faSortUp : faSortDown} />
         </Col>
       </Row>

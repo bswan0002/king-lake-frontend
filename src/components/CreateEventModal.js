@@ -22,6 +22,15 @@ const CreateEventModal = (props) => {
   const handleShow = () => setShow(true);
 
   const [startDate, setStartDate] = useState(new Date());
+  const [formDate, setFormDate] = useState(new Date());
+
+  const handleDateChange = (date) => {
+    console.log(date);
+    let splitDate = date.toString().split(" ");
+    let newDate = `${splitDate[0]}, ${splitDate[2]} ${splitDate[1]} ${splitDate[3]}`;
+    setFormDate(newDate);
+    setStartDate(date);
+  };
 
   const [formInputs, setFormInputs] = useState({
     "title": "",
@@ -37,7 +46,7 @@ const CreateEventModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submitting");
+    console.log(startDate);
     fetch("http://localhost:3000/api/v1/events", {
       method: "POST",
       headers: {
@@ -45,7 +54,7 @@ const CreateEventModal = (props) => {
       },
       body: JSON.stringify({
         ...formInputs,
-        date: startDate,
+        date: formDate,
       }),
     })
       .then((res) => res.json())
@@ -86,7 +95,8 @@ const CreateEventModal = (props) => {
                 <DatePicker
                   className="h-38"
                   selected={startDate}
-                  onChange={(date) => setStartDate(date)}
+                  onChange={(date) => handleDateChange(date)}
+                  minDate={new Date()}
                 />
               </Col>
             </Form.Row>

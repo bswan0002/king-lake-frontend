@@ -4,6 +4,37 @@ body {
   font-family: "PT Sans", sans-serif !important;
 }
 
+.prepared {
+  color: purple;
+  opacity: 0.75;
+}
+
+[name="prepared"] {
+  background-color: purple;
+}
+
+input[name="prepared"] {
+  box-shadow: 0 0px 10px 0 purple;
+}
+
+.paid_for {
+  color: blue;
+  opacity: 0.75;
+}
+
+input[name="paid_for"] {
+  box-shadow: 0 0px 10px 0 blue;
+}
+
+.picked_up {
+  color: green;
+  opacity: 0.75;
+}
+
+input[name="picked_up"] {
+  box-shadow: 0 0px 10px 0 green;
+}
+
 .landing-div {
   height: 100%;
   background-size: cover;

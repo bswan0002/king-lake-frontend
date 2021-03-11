@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
+import Legend from "./Legend";
 
 const AdminOrders = (props) => {
   const [orders, setOrders] = useState(false);
@@ -112,12 +113,19 @@ const AdminOrders = (props) => {
                 member={nameById(order.user_id)}
                 date={order.created_at}
                 pickup_date={order.pickup_date}
+                prepared={order.prepared}
+                paid_for={order.paid_for}
+                picked_up={order.picked_up}
               />
               <Accordion.Collapse eventKey={`${currentKey}`}>
                 <Card.Body>
                   <Row>
-                    <Col>Wine</Col>
-                    <Col>Status</Col>
+                    <Col>
+                      <h6 className="ml-2">Wine</h6>
+                    </Col>
+                    <Col>
+                      <h6>Status</h6>
+                    </Col>
                   </Row>
                   <Row>
                     <Col>
@@ -149,7 +157,7 @@ const AdminOrders = (props) => {
                           checked={order.picked_up}
                           onChange={handleChange}
                         />
-                        <Button size="sm" type="submit">
+                        <Button size="sm" type="submit" className="mt-3">
                           Save Status
                         </Button>
                       </Form>
@@ -165,7 +173,13 @@ const AdminOrders = (props) => {
   };
   return (
     <div>
-      <h2 className="mb-3">Pending Orders</h2>
+      <div className="d-flex justify-content-between mb-3">
+        <h2>Pending Orders</h2>
+        <div className="mt-2">
+          <Legend />
+        </div>
+      </div>
+
       {orders ? (
         <CustomScrollDiv>
           <Accordion style={{ maxHeight: "400px" }}>
