@@ -19,8 +19,13 @@ const Events = (props) => {
     })
       .then((res) => res.json())
       .then((eventsData) => {
+        console.log(eventsData);
         setEvents(eventsData);
       });
+  };
+
+  const addEvent = (eventData) => {
+    setEvents([...events, eventData]);
   };
 
   useEffect(fetchEvents, []);
@@ -46,7 +51,7 @@ const Events = (props) => {
       <Row>
         <Col className="d-flex justify-content-between">
           <h2 className="mt-4">Events</h2>
-          {props.admin && <CreateEventModal fetchEvents={fetchEvents} />}
+          {props.admin && <CreateEventModal addEvent={addEvent} />}
         </Col>
       </Row>
       <EventsCalendar myEventsList={eventsToCalEvents()} />

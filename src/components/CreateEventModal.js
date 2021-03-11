@@ -48,8 +48,9 @@ const CreateEventModal = (props) => {
         date: startDate,
       }),
     })
-      .then(handleClose())
-      .then(props.fetchEvents());
+      .then((res) => res.json())
+      .then((data) => props.addEvent(data))
+      .then(handleClose());
   };
 
   return (
