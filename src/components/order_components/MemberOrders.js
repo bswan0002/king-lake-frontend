@@ -66,8 +66,7 @@ const MemberOrders = (props) => {
           </Col>
           <Col xs={1} className="icon-col">
             <FontAwesomeIcon
-              id={`${key}`}
-              onClick={removeInput}
+              onClick={() => removeInput(key)}
               icon={faMinusSquare}
               size="lg"
               className="x-icon"
@@ -87,27 +86,16 @@ const MemberOrders = (props) => {
     });
   };
 
-  const removeInput = (e) => {
+  const removeInput = (rowKey) => {
     let newFormInputs = {};
     for (let index = 0; index < Object.keys(formInputs).length; index++) {
-      if (index < e.target.id) {
+      if (index < parseInt(rowKey)) {
         newFormInputs[index] = formInputs[index];
-      } else if (index > e.target.id) {
+      } else if (index > parseInt(rowKey)) {
         newFormInputs[index - 1] = formInputs[index];
       }
     }
     setFormInputs(newFormInputs);
-    // let formInputsCopy = { ...formInputs };
-    // delete formInputsCopy[e.target.id];
-    // let newFormInputs = {};
-    // for (let index = 0; index < Object.keys(formInputs).length - 1; index++) {
-    //   if (index < e.target.id) {
-    //     newFormInputs[index] = formInputsCopy[index];
-    //   } else {
-    //     newFormInputs[index] = formInputsCopy[index + 1];
-    //   }
-    // }
-    // setFormInputs(newFormInputs);
   };
 
   const handleChange = (e) => {

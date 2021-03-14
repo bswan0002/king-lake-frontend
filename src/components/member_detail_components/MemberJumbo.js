@@ -7,7 +7,7 @@ const MemberJumbo = (props) => {
 
   const fetchAdjustments = () => {
     fetch(
-      `http://localhost:3000/api/v1/commit-adjustments/${props.thisUserData.db.id}`,
+      `http://localhost:3000/api/v1/commit-adjustments/${props.thisUserData?.db?.id}`,
       {
         method: "GET",
       }
@@ -24,7 +24,7 @@ const MemberJumbo = (props) => {
 
   useEffect(() => {
     fetchAdjustments();
-  }, [props.thisUserData.db.commit_adjustments]);
+  }, [props.thisUserData?.db?.commit_adjustments]);
 
   const calculateCommitStatus = (user) => {
     console.log(adjustTotal());
