@@ -28,6 +28,18 @@ const Events = (props) => {
     setEvents([...events, eventData]);
   };
 
+  const removeEvent = (eventData) => {
+    let newEvents = events.filter((event) => event.id !== eventData.id);
+    setEvents(newEvents);
+  };
+
+  const editEvent = (eventData) => {
+    const eventIndex = events.findIndex((event) => event.id === eventData.id);
+    let newEvents = [...events];
+    newEvents.splice(eventIndex, 1, eventData);
+    setEvents(newEvents);
+  };
+
   useEffect(fetchEvents, []);
 
   const eventsToCalEvents = () => {
@@ -58,6 +70,8 @@ const Events = (props) => {
         myEventsList={eventsToCalEvents()}
         eventsData={events}
         isAdmin={props.admin}
+        removeEvent={removeEvent}
+        editEvent={editEvent}
       />
     </Container>
   );

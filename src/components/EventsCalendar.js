@@ -31,14 +31,38 @@ const EventsCalendar = (props) => {
   };
 
   const handleSubmit = (e) => {
-    console.log(e);
+    e.preventDefault();
+    fetch(`http://localhost:3000/api/v1/events/${formInputs.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json",
+      },
+      body: JSON.stringify({
+        ...formInputs,
+        date: formDate,
+      }),
+    })
+      .then((res) => res.json())
+      .then((eventData) => props.editEvent(eventData));
   };
-
-  const handleShow = () => setShow(true);
 
   const handleClose = () => {
     setShow(false);
     resetFormInputs();
+  };
+
+  const handleDelete = () => {
+    fetch(`http://localhost:3000/api/v1/events/${formInputs.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accepts": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((eventData) => props.removeEvent(eventData))
+      .then(handleClose());
   };
 
   const resetFormInputs = () => {
@@ -69,16 +93,17 @@ const EventsCalendar = (props) => {
     let datePlusOne = new Date(thisEventData.date);
     datePlusOne.setDate(datePlusOne.getDate() + 1);
     setStartDate(Date.parse(datePlusOne));
-    if (props.isAdmin) {
-      setShow(true);
-    }
+    handleDateChange(datePlusOne);
+    setShow(true);
   };
 
   const editModal = () => {
     return (
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Event</Modal.Title>
+          <Modal.Title>
+            {props.isAdmin ? "Edit Event" : "Event Details"}
+          </Modal.Title>
         </Modal.Header>
         <Form onSubmit={handleSubmit}>
           <Modal.Body>
@@ -97,6 +122,7 @@ const EventsCalendar = (props) => {
                   name="title"
                   value={formInputs.title}
                   onChange={handleChange}
+                  disabled={!props.isAdmin}
                 ></Form.Control>
               </Col>
               <Col>
@@ -105,6 +131,7 @@ const EventsCalendar = (props) => {
                   selected={startDate}
                   onChange={(date) => handleDateChange(date)}
                   minDate={new Date()}
+                  disabled={!props.isAdmin}
                 />
               </Col>
             </Form.Row>
@@ -121,25 +148,28 @@ const EventsCalendar = (props) => {
                   name="description"
                   value={formInputs.description}
                   onChange={handleChange}
+                  disabled={!props.isAdmin}
                 ></Form.Control>
               </Col>
             </Form.Row>
           </Modal.Body>
-          <Modal.Footer className="d-flex justify-content-between">
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-            <Button variant="secondary" onClick={handleClose}>
-              Delete Event
-            </Button>
-          </Modal.Footer>
+          {props.isAdmin ? (
+            <Modal.Footer className="d-flex justify-content-between">
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+              <Button variant="secondary" onClick={handleDelete}>
+                Delete Event
+              </Button>
+            </Modal.Footer>
+          ) : null}
         </Form>
       </Modal>
     );
   };
   return (
     <div>
-      {props.isAdmin && editModal()}
+      {editModal()}
       <Calendar
         localizer={localizer}
         events={props.myEventsList}
