@@ -54,7 +54,11 @@ const Events = (props) => {
           {props.admin && <CreateEventModal addEvent={addEvent} />}
         </Col>
       </Row>
-      <EventsCalendar myEventsList={eventsToCalEvents()} />
+      <EventsCalendar
+        myEventsList={eventsToCalEvents()}
+        eventsData={events}
+        isAdmin={props.admin}
+      />
     </Container>
   );
 };
