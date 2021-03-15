@@ -14,6 +14,10 @@ import Legend from "./Legend";
 
 const AdminOrders = (props) => {
   const [orders, setOrders] = useState(false);
+  // completed state instead of runtime logic to evaluate completedness
+  // so pending order doesn't automatically get pushed to completed
+  // after third check, needs to be saved and set in completed state
+  // for less janky ux
   const [completed, setCompleted] = useState({});
 
   const fetchOrders = () => {
@@ -92,7 +96,7 @@ const AdminOrders = (props) => {
 
   const sortOrders = () => {
     return (
-      orders && orders.sort((a, b) => (a.created_at < b.created_at ? -1 : 1))
+      orders && orders.sort((a, b) => (a.pickup_date < b.pickup_date ? -1 : 1))
     );
   };
 
