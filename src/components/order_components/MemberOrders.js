@@ -121,7 +121,7 @@ const MemberOrders = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let thisUser = await props.fetchUserByToken();
-    fetch("http://localhost:3000/api/v1/orders", {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

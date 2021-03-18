@@ -7,7 +7,7 @@ const MemberJumbo = (props) => {
 
   const fetchAdjustments = () => {
     fetch(
-      `http://localhost:3000/api/v1/commit-adjustments/${props.thisUserData?.db?.id}`,
+      `${process.env.REACT_APP_API_BASE_URL}/commit_adjustments/${props.thisUserData?.db?.id}`,
       {
         method: "GET",
       }

@@ -11,7 +11,6 @@ import SignInOrSignUp from "./components/SignInOrSignUp";
 import MyNav from "./components/MyNav";
 import AllMembers from "./components/AllMembers";
 import Orders from "./components/Orders";
-import Emails from "./components/Emails";
 import MemberDetails from "./components/MemberDetails";
 import Footer from "./components/Footer";
 import Events from "./components/Events";
@@ -38,6 +37,7 @@ class App extends Component {
         this.setState({
           userData: newUserData,
         });
+        localStorage.setItem("userData", JSON.stringify(newUserData));
       }
     });
   };
@@ -53,6 +53,7 @@ class App extends Component {
         this.setState({
           userData: newUserData,
         });
+        localStorage.setItem("userData", JSON.stringify(newUserData));
       }
     });
   };
@@ -75,7 +76,7 @@ class App extends Component {
   };
 
   fetchUserByToken = () => {
-    return fetch("http://localhost:3000/api/v1/persist", {
+    return fetch(`${process.env.REACT_APP_API_BASE_URL}/persist`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${sessionStorage.token}`,
@@ -90,7 +91,7 @@ class App extends Component {
   };
 
   fetchAllCustomers = () => {
-    fetch("http://localhost:3000/api/v1/all-customers")
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/all-customers`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ userData: data });
@@ -99,7 +100,7 @@ class App extends Component {
   };
 
   fetchThisMember = (square_id) => {
-    fetch(`http://localhost:3000/api/v1/members/${square_id}`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/members/${square_id}`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ userData: data });
@@ -108,7 +109,7 @@ class App extends Component {
   };
 
   fetchWines = () => {
-    fetch("http://localhost:3000/api/v1/wines")
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/wines`)
       .then((res) => res.json())
       .then((data) => {
         this.setState({ wines: data });
@@ -118,7 +119,7 @@ class App extends Component {
 
   signIn = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/api/v1/login", {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,7 +143,6 @@ class App extends Component {
           if (this.roleCheck("member", user.user)) {
             this.fetchThisMember(user.user.square_id);
           }
-
           this.fetchWines();
         }
       });
@@ -150,7 +150,7 @@ class App extends Component {
 
   signUp = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/api/v1/signup", {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -206,7 +206,7 @@ class App extends Component {
               handleSignOut={this.handleSignOut}
             />
             <Switch>
-              {this.roleCheck("admin") ? (
+              {this.roleCheck("admin") && (
                 <Fragment>
                   <Route exact path="/">
                     <Landing />
@@ -230,11 +230,8 @@ class App extends Component {
                   <Route path="/events">
                     <Events admin={true} />
                   </Route>
-                  {/* <Route path="/emails">
-                    <Emails checkRole={this.checkRoleFromValidated} />
-                  </Route> */}
                 </Fragment>
-              ) : null}
+              )}
               {this.roleCheck("member") ? (
                 <Fragment>
                   <Route exact path="/">

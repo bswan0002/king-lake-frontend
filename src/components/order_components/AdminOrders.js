@@ -21,7 +21,7 @@ const AdminOrders = (props) => {
   const [completed, setCompleted] = useState({});
 
   const fetchOrders = () => {
-    fetch("http://localhost:3000/api/v1/orders")
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders`)
       .then((res) => res.json())
       .then((orderRes) => {
         setOrders(orderRes);
@@ -65,7 +65,7 @@ const AdminOrders = (props) => {
     e.preventDefault();
     let index = orders.findIndex((order) => order.id === parseInt(e.target.id));
 
-    fetch(`http://localhost:3000/api/v1/orders/${orders[index].id}`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/${orders[index].id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

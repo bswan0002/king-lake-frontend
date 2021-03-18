@@ -14,7 +14,7 @@ const Events = (props) => {
   };
 
   const fetchEvents = () => {
-    fetch("http://localhost:3000/api/v1/events", {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/events`, {
       method: "GET",
     })
       .then((res) => res.json())

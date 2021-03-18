@@ -47,7 +47,7 @@ const CreateEventModal = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(startDate);
-    fetch("http://localhost:3000/api/v1/events", {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/events`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

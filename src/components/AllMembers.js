@@ -52,12 +52,14 @@ const AllMembers = (props) => {
         };
       });
     } else {
-      rows = {
-        name: "Retrieving Data",
-        email: "Retrieving Data",
-        membership: "Retrieving Data",
-        commit: "Retrieving Data",
-      };
+      rows = [
+        {
+          name: "Retrieving Data",
+          email: "Retrieving Data",
+          membership: "Retrieving Data",
+          commit: "Retrieving Data",
+        },
+      ];
     }
     return {
       columns: [

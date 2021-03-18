@@ -13,7 +13,7 @@ const MemberOrderList = (props) => {
   }, [props.fetchAgain]);
 
   const fetchOrders = (id) => {
-    fetch(`http://localhost:3000/api/v1/orders/${id}`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/${id}`)
       .then((res) => res.json())
       .then((orderRes) => {
         setOrders(orderRes);

@@ -32,7 +32,7 @@ const EventsCalendar = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:3000/api/v1/events/${formInputs.id}`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/events/${formInputs.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const EventsCalendar = (props) => {
   };
 
   const handleDelete = () => {
-    fetch(`http://localhost:3000/api/v1/events/${formInputs.id}`, {
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/events/${formInputs.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

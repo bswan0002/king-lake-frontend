@@ -64,13 +64,16 @@ const CommitAdjustments = (props) => {
 
   const handleDelete = (e) => {
     console.log(e.target.id);
-    fetch(`http://localhost:3000/api/v1/commit-adjustments/${e.target.id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "Accepts": "application/json",
-      },
-    })
+    fetch(
+      `${process.env.REACT_APP_API_BASE_URL}/commit_adjustments/${e.target.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Accepts": "application/json",
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => console.log(data))
       .then(() => {
@@ -132,10 +135,11 @@ const CommitAdjustments = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/api/v1/commit-adjustments", {
+    fetch("http://localhost:3000/api/v1/commit_adjustments", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.token}`,
       },
       body: JSON.stringify({
         ...formInputs,
