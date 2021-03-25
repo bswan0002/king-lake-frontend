@@ -10,12 +10,9 @@ const MemberOrderList = (props) => {
   const [orders, setOrders] = useState(false);
   const [completed, setCompleted] = useState({});
 
-  useEffect(
-    (props) => {
-      props.fetchUserByToken().then((user) => fetchOrders(user.id));
-    },
-    [props.fetchAgain]
-  );
+  useEffect(() => {
+    props.fetchUserByToken().then((user) => fetchOrders(user.id));
+  }, [props.fetchAgain]);
 
   const fetchOrders = (id) => {
     fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/${id}`)
