@@ -1,5 +1,7 @@
+// Libraries
 import React, { Fragment } from "react";
 import { Container } from "react-bootstrap";
+// Components
 import MemberJumbo from "./member_detail_components/MemberJumbo";
 import Transactions from "./member_detail_components/Transactions";
 

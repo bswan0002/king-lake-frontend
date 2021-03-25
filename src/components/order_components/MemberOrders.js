@@ -1,11 +1,14 @@
+// Libraries
 import React, { useState, Fragment } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusSquare } from "@fortawesome/free-regular-svg-icons";
 import NumericInput from "react-numeric-input";
-import MemberOrderList from "./MemberOrderList";
 import DatePicker from "react-datepicker";
+// Styles
 import "react-datepicker/dist/react-datepicker.css";
+// Components
+import MemberOrderList from "./MemberOrderList";
 
 const MemberOrders = (props) => {
   const [formInputs, setFormInputs] = useState({

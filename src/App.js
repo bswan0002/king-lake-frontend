@@ -1,3 +1,4 @@
+// Libraries
 import React, { Component, Fragment } from "react";
 import {
   BrowserRouter as Router,
@@ -5,16 +6,18 @@ import {
   Switch,
   Redirect,
 } from "react-router-dom";
+// Style
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import SignInOrSignUp from "./components/SignInOrSignUp";
-import MyNav from "./components/MyNav";
+// Components
 import AllMembers from "./components/AllMembers";
-import Orders from "./components/Orders";
-import MemberDetails from "./components/MemberDetails";
-import Footer from "./components/Footer";
 import Events from "./components/Events";
-import Landing from "./Landing";
+import Footer from "./components/Footer";
+import Landing from "./components/Landing";
+import MemberDetails from "./components/MemberDetails";
+import MyNav from "./components/MyNav";
+import Orders from "./components/Orders";
+import SignInOrSignUp from "./components/SignInOrSignUp";
 
 class App extends Component {
   state = {

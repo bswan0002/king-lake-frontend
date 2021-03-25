@@ -1,6 +1,8 @@
+// Libraries
 import React, { useEffect, useState, Fragment } from "react";
 import { MDBDataTableV5 } from "mdbreact";
 import { Container, Button } from "react-bootstrap";
+// Components
 import Transactions from "./member_detail_components/Transactions";
 import MemberJumbo from "./member_detail_components/MemberJumbo";
 import CommitAdjustments from "./member_detail_components/CommitAdjustments";

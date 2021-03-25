@@ -1,7 +1,9 @@
+// Libraries
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import EventsCalendar from "./EventsCalendar";
-import CreateEventModal from "./CreateEventModal";
+// Components
+import EventsCalendar from "./events_components/EventsCalendar";
+import CreateEventModal from "./events_components/CreateEventModal";
 
 const Events = (props) => {
   const [events, setEvents] = useState([]);

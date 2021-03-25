@@ -1,5 +1,7 @@
+// Libraries
 import React, { useState, useEffect } from "react";
 import { Accordion, Card, Row, Col, ListGroup, Form } from "react-bootstrap";
+// Components
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
 import Legend from "./Legend";
@@ -8,9 +10,12 @@ const MemberOrderList = (props) => {
   const [orders, setOrders] = useState(false);
   const [completed, setCompleted] = useState({});
 
-  useEffect(() => {
-    props.fetchUserByToken().then((user) => fetchOrders(user.id));
-  }, [props.fetchAgain]);
+  useEffect(
+    (props) => {
+      props.fetchUserByToken().then((user) => fetchOrders(user.id));
+    },
+    [props.fetchAgain]
+  );
 
   const fetchOrders = (id) => {
     fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/${id}`)
@@ -109,6 +114,8 @@ const MemberOrderList = (props) => {
               </Accordion.Collapse>
             </Card>
           );
+        } else {
+          return null;
         }
       })
     );

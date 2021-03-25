@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useContext, Fragment } from "react";
+// Libraries
+import React, { useState, useContext, Fragment } from "react";
 import {
   Accordion,
   Card,
@@ -9,9 +10,10 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
-import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+// Components
+import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import HandleDate from "../order_components/HandleDate";
 
 function ContextAwareToggle({ eventKey, callback, date, amount }) {

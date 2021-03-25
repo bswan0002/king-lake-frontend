@@ -1,3 +1,4 @@
+// Libraries
 import React, { useContext } from "react";
 import {
   Accordion,
@@ -10,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
+// Components
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import HandleDate from "../order_components/HandleDate";
 

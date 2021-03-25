@@ -1,3 +1,4 @@
+// Libraries
 import React, { useContext } from "react";
 import {
   useAccordionToggle,
@@ -9,6 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
+// Components
 import HandleDate from "./HandleDate";
 
 function ContextAwareToggle({

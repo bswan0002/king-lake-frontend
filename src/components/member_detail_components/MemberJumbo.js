@@ -1,5 +1,7 @@
+// Libraries
 import React, { useEffect, useState } from "react";
 import { Jumbotron } from "react-bootstrap";
+// Components
 import HandleDate from "../order_components/HandleDate";
 
 const MemberJumbo = (props) => {

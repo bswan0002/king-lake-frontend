@@ -1,3 +1,4 @@
+// Libraries
 import React, { useState, useEffect } from "react";
 import {
   Accordion,
@@ -8,6 +9,7 @@ import {
   Form,
   Button,
 } from "react-bootstrap";
+// Components
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
 import Legend from "./Legend";

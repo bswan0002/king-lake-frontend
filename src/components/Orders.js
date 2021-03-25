@@ -1,5 +1,7 @@
+// Libraries
 import React from "react";
 import { Container } from "react-bootstrap";
+// Components
 import AdminOrders from "./order_components/AdminOrders";
 import MemberOrders from "./order_components/MemberOrders";
 
