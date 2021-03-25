@@ -21,7 +21,6 @@ const Events = (props) => {
     })
       .then((res) => res.json())
       .then((eventsData) => {
-        console.log(eventsData);
         setEvents(eventsData);
       });
   };

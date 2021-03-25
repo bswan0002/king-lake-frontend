@@ -29,7 +29,6 @@ const MemberJumbo = (props) => {
   }, [props.thisUserData?.db?.commit_adjustments]);
 
   const calculateCommitStatus = (user) => {
-    console.log(adjustTotal());
     let bottlesPurchased = 0;
     if (user) {
       user.transactions?.forEach((transaction) => {
@@ -63,7 +62,6 @@ const MemberJumbo = (props) => {
           bottlesPurchased - user.db?.commit_count + adjustTotal()
         )} bottles behind `;
       } else {
-        console.log(adjustTotal());
         return `exactly caught up `;
       }
     }

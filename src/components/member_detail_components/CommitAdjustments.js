@@ -65,7 +65,6 @@ const CommitAdjustments = (props) => {
   });
 
   const handleDelete = (e) => {
-    console.log(e.target.id);
     fetch(
       `${process.env.REACT_APP_API_BASE_URL}/commit_adjustments/${e.target.id}`,
       {
@@ -77,7 +76,6 @@ const CommitAdjustments = (props) => {
       }
     )
       .then((res) => res.json())
-      .then((data) => console.log(data))
       .then(() => {
         props.removeCommitAdjustment(e.target.id);
       });

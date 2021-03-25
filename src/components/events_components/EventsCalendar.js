@@ -23,7 +23,6 @@ const EventsCalendar = (props) => {
   const [formDate, setFormDate] = useState(new Date());
 
   const handleDateChange = (date) => {
-    console.log(date);
     let splitDate = date.toString().split(" ");
     let newDate = `${splitDate[0]}, ${splitDate[2]} ${splitDate[1]} ${splitDate[3]}`;
     setFormDate(newDate);
@@ -84,7 +83,6 @@ const EventsCalendar = (props) => {
     const thisEventData = props.eventsData.find(
       (event) => event.id === e.resource
     );
-    console.log(thisEventData);
     setFormInputs({
       "id": e.resource,
       "title": thisEventData.title,

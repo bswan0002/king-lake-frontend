@@ -25,7 +25,6 @@ const CreateEventModal = (props) => {
   const [formDate, setFormDate] = useState(new Date());
 
   const handleDateChange = (date) => {
-    console.log(date);
     let splitDate = date.toString().split(" ");
     let newDate = `${splitDate[0]}, ${splitDate[2]} ${splitDate[1]} ${splitDate[3]}`;
     setFormDate(newDate);
@@ -46,7 +45,6 @@ const CreateEventModal = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(startDate);
     fetch(`${process.env.REACT_APP_API_BASE_URL}/events`, {
       method: "POST",
       headers: {

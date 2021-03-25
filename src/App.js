@@ -27,11 +27,8 @@ class App extends Component {
   };
 
   removeCommitAdjustment = (id) => {
-    console.log("im in yr method");
     this.state.userData.forEach((user, index) => {
-      console.log("im in yr loop");
       if (user.db.commit_adjustments.find((adj) => adj.id === parseInt(id))) {
-        console.log("im in yr if");
         let newCommitAdjustments = user.db.commit_adjustments.filter(
           (adj) => adj.id !== parseInt(id)
         );
@@ -46,7 +43,6 @@ class App extends Component {
   };
 
   addCommitAdjustment = (newCommit) => {
-    console.log(newCommit);
     this.state.userData.forEach((user, index) => {
       if (user.db.id === newCommit.user_id) {
         let newCommitAdjustments = [...user.db.commit_adjustments];
