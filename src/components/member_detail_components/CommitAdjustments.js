@@ -14,7 +14,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 // Components
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
-import HandleDate from "../order_components/HandleDate";
+import handleDate from "../utilities/handleDate";
 
 function ContextAwareToggle({ eventKey, callback, date, amount }) {
   const currentEventKey = useContext(AccordionContext);
@@ -39,9 +39,7 @@ function ContextAwareToggle({ eventKey, callback, date, amount }) {
     >
       <Row>
         <Col>Adjustment on:</Col>
-        <Col>
-          <HandleDate date={date} />
-        </Col>
+        <Col>{`${handleDate(date)}`}</Col>
         <Col>
           For {amount > 0 ? `Credit of ${amount}` : `Debit of ${amount}`}{" "}
           bottles

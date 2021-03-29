@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 // Components
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
-import HandleDate from "../order_components/HandleDate";
+import handleDate from "../utilities/handleDate";
 
 function ContextAwareToggle({ eventKey, callback, bottles, date }) {
   const currentEventKey = useContext(AccordionContext);
@@ -40,9 +40,7 @@ function ContextAwareToggle({ eventKey, callback, bottles, date }) {
         <Col xs={5}>{`${bottles} ${
           bottles > 1 ? "Bottles" : "Bottle"
         } Purchased on:`}</Col>
-        <Col>
-          <HandleDate date={date} />
-        </Col>
+        <Col>{`${handleDate(date)}`}</Col>
         <Col style={{ textAlign: "right" }}>
           <FontAwesomeIcon icon={isCurrentEventKey ? faSortUp : faSortDown} />
         </Col>

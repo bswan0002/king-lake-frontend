@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Jumbotron } from "react-bootstrap";
 // Components
-import HandleDate from "../order_components/HandleDate";
+import handleDate from "../utilities/handleDate";
 
 const MemberJumbo = (props) => {
   const [adjustments, setAdjustments] = useState([]);
@@ -77,8 +77,7 @@ const MemberJumbo = (props) => {
 
       <h3>
         <span className={`${props.membership}`}>{`${props.membership}`}</span>{" "}
-        Member since{" "}
-        <HandleDate date={props.thisUserData?.square?.created_at} />
+        Member since {`${handleDate(props.thisUserData?.square?.created_at)}`}
       </h3>
       {props.admin ? (
         <h4>

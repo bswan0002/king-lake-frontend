@@ -1,6 +1,4 @@
-import React from "react";
-
-const HandleDate = ({ date }) => {
+const handleDate = (date) => {
   const months = {
     "01": "January",
     "02": "February",
@@ -25,4 +23,4 @@ const HandleDate = ({ date }) => {
   );
 };
 
-export default HandleDate;
+export default handleDate;

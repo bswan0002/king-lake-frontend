@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSortUp, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 // Components
-import HandleDate from "./HandleDate";
+import handleDate from "../utilities/handleDate";
 
 function ContextAwareToggle({
   eventKey,
@@ -52,11 +52,9 @@ function ContextAwareToggle({
     >
       <Row>
         <Col xs={3}>{`${member} Ordered on:`}</Col>
+        <Col xs={3}>{`${handleDate(date)}`}</Col>
         <Col xs={3}>
-          <HandleDate date={date} />
-        </Col>
-        <Col xs={3}>
-          For pickup on: {pickup_date && <HandleDate date={pickup_date} />}
+          For pickup on: {pickup_date && `${handleDate(pickup_date)}`}
         </Col>
         <Col xs={2} className="d-flex mt-2">
           {prepared && statusIcon("prepared")}
