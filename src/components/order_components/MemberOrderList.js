@@ -56,7 +56,7 @@ const MemberOrderList = (props) => {
         ) {
           currentKey += 1;
           return (
-            <Card>
+            <Card key={order.id}>
               <ContextAwareToggle
                 eventKey={`${currentKey}`}
                 member=""
