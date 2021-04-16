@@ -147,6 +147,7 @@ class App extends Component {
       });
   };
 
+  // to do: email temp password?
   signUp = (e) => {
     e.preventDefault();
     fetch(`${process.env.REACT_APP_API_BASE_URL}/signup`, {

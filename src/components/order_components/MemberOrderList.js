@@ -126,7 +126,9 @@ const MemberOrderList = (props) => {
           <Legend />
         </div>
       </div>
+
       {orders ? (
+        //custom fixed headers
         <CustomScrollDiv>
           <Accordion className="order-accordion-list">
             {" "}

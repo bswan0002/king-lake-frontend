@@ -10,6 +10,7 @@ import CsvDownload from "./member_detail_components/CsvDownload";
 import TransactionCsvDownload from "./member_detail_components/TransactionCsvDownload";
 
 const AllMembers = (props) => {
+  // this looks fishy...
   useEffect(() => {
     props.checkRole("admin");
   });

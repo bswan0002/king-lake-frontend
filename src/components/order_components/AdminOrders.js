@@ -13,6 +13,7 @@ import {
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
 import Legend from "./Legend";
+import AdminOrderHeader from "./AdminOrderHeader";
 
 const AdminOrders = (props) => {
   const [orders, setOrders] = useState(false);
@@ -21,6 +22,10 @@ const AdminOrders = (props) => {
   // after third check, needs to be saved and set in completed state
   // for less janky ux
   const [completed, setCompleted] = useState({});
+
+  const anyCompleted = () => {
+    return Object.values(completed).some(val => !!val)
+  }
 
   const fetchOrders = () => {
     fetch(`${process.env.REACT_APP_API_BASE_URL}/orders`)
@@ -187,25 +192,31 @@ const AdminOrders = (props) => {
       </div>
 
       {orders ? (
-        <CustomScrollDiv>
-          <Accordion style={{ maxHeight: "400px" }}>
-            {" "}
-            {renderOrderCards("pending")}
-          </Accordion>
-        </CustomScrollDiv>
+        <>
+          <AdminOrderHeader />
+          <CustomScrollDiv>
+            <Accordion style={{ maxHeight: "400px" }}>
+              {" "}
+              {renderOrderCards("pending")}
+            </Accordion>
+          </CustomScrollDiv>
+        </>
       ) : (
         <h3>Retrieving Orders...</h3>
       )}
 
       <hr />
       <h2 className="mb-3">Completed Orders</h2>
-      {orders ? (
+      {orders && anyCompleted() ? (
+        <>
+        <AdminOrderHeader/>
         <CustomScrollDiv>
           <Accordion style={{ maxHeight: "400px" }}>
             {" "}
             {renderOrderCards("completed")}
           </Accordion>
         </CustomScrollDiv>
+        </>
       ) : null}
     </div>
   );

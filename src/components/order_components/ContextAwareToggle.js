@@ -51,10 +51,10 @@ function ContextAwareToggle({
       onClick={decoratedOnClick}
     >
       <Row>
-        <Col xs={3}>{`${member} Ordered on:`}</Col>
+        <Col xs={3}>{member}</Col>
         <Col xs={3}>{`${handleDate(date)}`}</Col>
         <Col xs={3}>
-          For pickup on: {pickup_date && `${handleDate(pickup_date)}`}
+          {pickup_date && `${handleDate(pickup_date)}`}
         </Col>
         <Col xs={2} className="d-flex mt-2">
           {prepared && statusIcon("prepared")}
