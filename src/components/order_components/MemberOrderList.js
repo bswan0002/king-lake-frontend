@@ -5,10 +5,15 @@ import { Accordion, Card, Row, Col, ListGroup, Form } from "react-bootstrap";
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
 import Legend from "./Legend";
+import OrderHeader from "./OrderHeader";
 
 const MemberOrderList = (props) => {
   const [orders, setOrders] = useState(false);
   const [completed, setCompleted] = useState({});
+
+  const anyCompleted = () => {
+    return Object.values(completed).some(val => !!val)
+  }
 
   useEffect(() => {
     props.fetchUserByToken().then((user) => fetchOrders(user.id));
@@ -128,27 +133,32 @@ const MemberOrderList = (props) => {
       </div>
 
       {orders ? (
-        //custom fixed headers
-        <CustomScrollDiv>
-          <Accordion className="order-accordion-list">
-            {" "}
-            {renderOrderCards("pending")}
-          </Accordion>
-        </CustomScrollDiv>
+        <>
+          <OrderHeader hasMember={false} />
+          <CustomScrollDiv>
+            <Accordion className="order-accordion-list">
+              {" "}
+              {renderOrderCards("pending")}
+            </Accordion>
+          </CustomScrollDiv>
+        </>
       ) : (
         <h3>Retrieving Orders...</h3>
       )}
 
       <hr />
       <h2>Completed Orders</h2>
-      {orders ? (
-        <CustomScrollDiv>
-          <Accordion className="order-accordion-list">
-            {" "}
-            {renderOrderCards("completed")}
-          </Accordion>
-        </CustomScrollDiv>
-      ) : null}
+      {orders && anyCompleted() && (
+        <>
+          <OrderHeader hasMember={false} />
+          <CustomScrollDiv>
+            <Accordion className="order-accordion-list">
+              {" "}
+              {renderOrderCards("completed")}
+            </Accordion>
+          </CustomScrollDiv>
+        </>
+      )}
     </div>
   );
 };

@@ -13,7 +13,7 @@ import {
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
 import ContextAwareToggle from "./ContextAwareToggle";
 import Legend from "./Legend";
-import AdminOrderHeader from "./AdminOrderHeader";
+import OrderHeader from "./OrderHeader";
 
 const AdminOrders = (props) => {
   const [orders, setOrders] = useState(false);
@@ -193,7 +193,7 @@ const AdminOrders = (props) => {
 
       {orders ? (
         <>
-          <AdminOrderHeader />
+          <OrderHeader hasMember={true}/>
           <CustomScrollDiv>
             <Accordion style={{ maxHeight: "400px" }}>
               {" "}
@@ -209,7 +209,7 @@ const AdminOrders = (props) => {
       <h2 className="mb-3">Completed Orders</h2>
       {orders && anyCompleted() ? (
         <>
-        <AdminOrderHeader/>
+        <OrderHeader hasMember={true}/>
         <CustomScrollDiv>
           <Accordion style={{ maxHeight: "400px" }}>
             {" "}

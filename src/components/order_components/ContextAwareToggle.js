@@ -23,6 +23,11 @@ function ContextAwareToggle({
   paid_for,
   picked_up,
 }) {
+
+  const colWidth = () => {
+    return member ? 3 : 4
+  }
+
   const currentEventKey = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionToggle(
@@ -51,12 +56,12 @@ function ContextAwareToggle({
       onClick={decoratedOnClick}
     >
       <Row>
-        <Col xs={3}>{member}</Col>
-        <Col xs={3}>{`${handleDate(date)}`}</Col>
-        <Col xs={3}>
+        {member && <Col xs={colWidth()}>{member}</Col>}
+        <Col xs={colWidth()}>{`${handleDate(date)}`}</Col>
+        <Col xs={colWidth()}>
           {pickup_date && `${handleDate(pickup_date)}`}
         </Col>
-        <Col xs={2} className="d-flex mt-2">
+        <Col xs={colWidth() -1} className="d-flex mt-2">
           {prepared && statusIcon("prepared")}
           {paid_for && statusIcon("paid_for")}
           {picked_up && statusIcon("picked_up")}
