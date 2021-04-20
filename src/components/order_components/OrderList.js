@@ -1,5 +1,4 @@
 // Libraries
-import React, { useState, useEffect } from "react";
 import { Accordion, Card, Row, Col, ListGroup, Form } from "react-bootstrap";
 // Components
 import CustomScrollDiv from "../utilities/CustomScrollDiv";
@@ -7,36 +6,11 @@ import ContextAwareToggle from "./ContextAwareToggle";
 import Legend from "./Legend";
 import OrderHeader from "./OrderHeader";
 
-const MemberOrderList = (props) => {
-  const [orders, setOrders] = useState(false);
-  const [completed, setCompleted] = useState({});
-
+const OrderList = ({ orders, completed }) => {
   const anyCompleted = () => {
-    return Object.values(completed).some(val => !!val)
-  }
-
-  useEffect(() => {
-    props.fetchUserByToken().then((user) => fetchOrders(user.id));
-  }, [props.fetchAgain]);
-
-  const fetchOrders = (id) => {
-    fetch(`${process.env.REACT_APP_API_BASE_URL}/orders/${id}`)
-      .then((res) => res.json())
-      .then((orderRes) => {
-        setOrders(orderRes);
-        setCompleted(() => {
-          let completedOrders = {};
-          orderRes.forEach((order) => {
-            if (order.prepared && order.paid_for && order.picked_up) {
-              completedOrders[order.id] = true;
-            } else {
-              completedOrders[order.id] = false;
-            }
-          });
-          return completedOrders;
-        });
-      });
+    return Object.values(completed).some((val) => !!val);
   };
+
   const renderWineList = (items) => {
     return items.map((item) => {
       return (
@@ -163,4 +137,4 @@ const MemberOrderList = (props) => {
   );
 };
 
-export default MemberOrderList;
+export default OrderList;
