@@ -11,6 +11,10 @@ const OrderList = ({ orders, completed }) => {
     return Object.values(completed).some((val) => !!val);
   };
 
+  const anyPending = () => {
+    return Object.values(completed).some((val) => !val);
+  }
+
   const renderWineList = (items) => {
     return items.map((item) => {
       return (
@@ -106,7 +110,7 @@ const OrderList = ({ orders, completed }) => {
         </div>
       </div>
 
-      {orders ? (
+      {anyPending() && (
         <>
           <OrderHeader hasMember={false} />
           <CustomScrollDiv>
@@ -116,13 +120,11 @@ const OrderList = ({ orders, completed }) => {
             </Accordion>
           </CustomScrollDiv>
         </>
-      ) : (
-        <h3>Retrieving Orders...</h3>
       )}
 
       <hr />
       <h2>Completed Orders</h2>
-      {orders && anyCompleted() && (
+      {anyCompleted() && (
         <>
           <OrderHeader hasMember={false} />
           <CustomScrollDiv>

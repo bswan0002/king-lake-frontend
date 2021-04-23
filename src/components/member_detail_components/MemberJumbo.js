@@ -36,30 +36,30 @@ const MemberJumbo = (props) => {
           bottlesPurchased += parseInt(line_item.quantity);
         });
       });
-      if (bottlesPurchased - user.db?.commit_count + adjustTotal() > 1) {
+      if (bottlesPurchased + adjustTotal() > 1) {
         return `${
-          bottlesPurchased - user.db?.commit_count + adjustTotal()
+          bottlesPurchased + adjustTotal()
         } bottles ahead `;
       } else if (
-        bottlesPurchased - user.db?.commit_count + adjustTotal() ===
+        bottlesPurchased + adjustTotal() ===
         1
       ) {
         return `${
-          bottlesPurchased - user.db?.commit_count + adjustTotal()
+          bottlesPurchased + adjustTotal()
         } bottle ahead `;
       } else if (
-        bottlesPurchased - user.db?.commit_count + adjustTotal() ===
+        bottlesPurchased + adjustTotal() ===
         -1
       ) {
         return `${Math.abs(
-          bottlesPurchased - user.db?.commit_count + adjustTotal()
+          bottlesPurchased + adjustTotal()
         )} bottle behind `;
       } else if (
-        bottlesPurchased - user.db?.commit_count + adjustTotal() <
+        bottlesPurchased + adjustTotal() <
         -1
       ) {
         return `${Math.abs(
-          bottlesPurchased - user.db?.commit_count + adjustTotal()
+          bottlesPurchased + adjustTotal()
         )} bottles behind `;
       } else {
         return `exactly caught up `;

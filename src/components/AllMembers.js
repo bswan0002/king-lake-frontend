@@ -38,8 +38,7 @@ const AllMembers = (props) => {
       });
     });
     return (
-      bottlesPurchased -
-      user.db.commit_count +
+      bottlesPurchased +
       adjustTotal(user.db.commit_adjustments)
     );
   };
